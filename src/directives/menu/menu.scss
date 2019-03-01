@@ -1,0 +1,104 @@
+.xmb-menu {
+	font-style: normal;
+	.active {
+		background: #fff !important;
+	}
+	.productMenu {
+		text-align: center;
+		>div {
+			padding: 2rem 1rem;
+			background: #f5f5f5;
+			border-bottom: 1px solid #ddd;
+			line-height: 2;
+			$iconboxsize: 5rem;
+			.iconbox {
+				margin: 0 auto;
+				height: $iconboxsize;
+				width: $iconboxsize;
+				line-height: $iconboxsize;
+				font-size: $iconboxsize * 0.5;
+				border-radius: 50%;
+				color: #fff;
+				ion-icon {
+					margin-top: 1.2rem;
+				}
+			}
+		}
+		.green {
+			&.active {
+				color: #48c098;
+			}
+			.iconbox {
+				box-shadow: 1px 1px 5px #48c098;
+				background: #48c098;
+			}
+		}
+		.yellow {
+			&.active {
+				color: #fcb433;
+			}
+			.iconbox {
+				box-shadow: 1px 1px 5px #fcb433;
+				background: #fcb433;
+			}
+		}
+		.orange {
+			&.active {
+				color: #ee6c23;
+			}
+			.iconbox {
+				box-shadow: 1px 1px 5px #ee6c23;
+				background: #ee6c23;
+			}
+		}
+		.red {
+			&.active {
+				color: #ec2727;
+			}
+			.iconbox {
+				box-shadow: 1px 1px 5px #ec2727;
+				background: #ec2727;
+			}
+		}
+	}
+}
+
+%menubg {
+	background: #f6f6f6;
+	height: $conHeight;
+}
+
+// 二级分类样式
+%typebg {
+	box-shadow: 1px 1px 5px #aaa;
+	padding: 0;
+	height: $conHeight;
+	overflow: auto;
+	.list-ios>.item-block:first-child {
+		border-top: 0;
+	}
+	.typebtn {
+		cursor: pointer;
+		padding: 1rem;
+		background: #fcfcfc;
+		box-shadow: 1px 0px 3px #ddd;
+	}
+	.typebtn.active,
+	.typebtn:hover {
+		background: linear-gradient(#f8f8f8, #eee);
+		color:#222;
+	}
+	.icon {
+		display: inline-block;
+		height: 3rem;
+		width: 3rem;
+		border-radius: 50%;
+		vertical-align: middle;
+		overflow: hidden;
+		margin-right: 1rem;
+		img {
+			width: 100%;
+			height: 100%;
+		}
+	}
+}

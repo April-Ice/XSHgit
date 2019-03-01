@@ -1,0 +1,106 @@
+<ion-header>
+    <ion-navbar color="white">
+        <ion-title>订单数据</ion-title>
+        <ion-buttons end>
+            <button ion-button class="blickBtn" (click)="gotoAddOrder()">新建订单</button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+<ion-content>
+    <ion-grid class="nopadding">
+        <ion-row>
+            <ion-col col-2 class="typebg">
+                <dfn class="xmb-chartmenu" [preload]="{active:'orders'}"></dfn>
+            </ion-col>
+            <ion-col col-10 class="chart-box">
+                <!-- <div class="greyBg"> -->
+                <div class="">
+                    <div class="headCon">
+                        <h3> MULTI SELECTION </h3>
+                        <P>
+                            An enterprise-class UI design language and React-based implementation with a set of
+                            high-quality React components.
+                        </P>
+                    </div>
+                    <ion-row class="searchRow">
+                        <ion-col col-2>
+                            <ion-item no-lines>
+                                <ion-label>类型</ion-label>
+                                <ion-select (ionChange)="getTableInfo()" [(ngModel)]="searchOptions.area_id">
+                                    <ion-option value="-1">全部</ion-option>
+                                    <ion-option value="{{item.id}}" *ngFor="let item of typelist">{{item.name}}</ion-option>
+                                </ion-select>
+                            </ion-item>
+                        </ion-col>
+                        <ion-col col-3>
+                            <ion-item no-lines>
+                                <ion-label>时间</ion-label>
+                                <ion-datetime displayFormat="YYYY MMM DD" pickerFormat="YYYY MMM DD" [(ngModel)]="searchOptions.start_date"
+                                    (ionChange)="getTableInfo()"></ion-datetime>
+                            </ion-item>
+                        </ion-col>
+                        <ion-col col-2>
+                            <ion-item no-lines>
+                                <ion-datetime displayFormat="YYYY MMM DD" pickerFormat="YYYY MMM DD" [(ngModel)]="searchOptions.end_date"
+                                    (ionChange)="getTableInfo()"></ion-datetime>
+                            </ion-item>
+                        </ion-col>
+                        <ion-col col-2>
+                            <ion-item no-lines>
+                                <ion-label>销售人员</ion-label>
+                                <ion-select (ionChange)="getTableInfo()" [(ngModel)]="searchOptions.saler">
+                                    <ion-option value="0">全部</ion-option>
+                                    <ion-option value="{{item.id}}" *ngFor="let item of staffList">{{item.name}}</ion-option>
+                                </ion-select>
+                            </ion-item>
+                        </ion-col>
+                        <ion-col col-3>
+                            <!-- <ion-item no-lines> -->
+                            <!-- <ion-label>搜索</ion-label> -->
+                            <ion-searchbar placeholder="搜索" (ionInput)="onInput($event)" [showCancelButton]="shouldShowCancel"
+                                [(ngModel)]="searchOptions.key_words"></ion-searchbar>
+                            <!-- <ion-input placeholder="搜索" (ionChange)="handleEnterKey($event)" [(ngModel)]="searchOptions.key_words"></ion-input> -->
+                            <!-- </ion-item> -->
+                        </ion-col>
+
+                    </ion-row>
+                    <ion-row class="fixTable">
+                        <ion-col>
+                            <table class="clientTable finaTable f-table">
+                                <tr>
+                                    <td style="width:25%;">订单名称</td>
+                                    <td style="width:25%">销售员</td>
+                                    <td style="width:25%">订单日期</td>
+                                    <td style="width:25%;">消费金额</td>
+                                </tr>
+                            </table>
+                            <table class="clientTable finaTable">
+                                <tr class="trItem" *ngFor="let item of orderList;let i = index" (click)="gotoDetail(item.id)">
+                                    <td style="width:25%;">{{item.order_name}}</td>
+                                    <td style="width:25%">{{item.saler_name}}</td>
+                                    <td style="width:25%">{{item.start_time}}</td>
+                                    <td style="width:25%;">{{item.total_price}}</td>
+                                </tr>
+                            </table>
+                            <ion-row>
+                                <ion-col col-6>
+                                    <div class="totalbar">
+                                        累计订单数：{{order_num}} ， 金额总计：{{total_price}}
+                                    </div>
+                                </ion-col>
+                                <ion-col col-6>
+                                    <div class="pagebar">
+                                        <span *ngFor="let item of pageNumArr">
+                                            <button ion-button color="light" [class.active]="item == pagCurren" (click)="setPagination(item)">{{item}}</button>
+                                        </span>
+                                    </div>
+                                </ion-col>
+
+                            </ion-row>
+                        </ion-col>
+                    </ion-row>
+                </div>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>

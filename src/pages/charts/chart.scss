@@ -1,0 +1,360 @@
+page-chart {
+
+	.typebg {
+		@extend %typebg;
+		min-height: 94vh;
+	}
+	.nopadding{
+		padding: 0;
+	}
+	.side-menu {
+		border-right: 1px solid #000;
+	}
+	.chart-box {
+		padding: 0;
+		>div {
+			min-height: 90vh;
+		}
+	}
+	.greyBg {
+		background: #eee;
+		padding: 2rem;
+	}
+	.clientBg {
+		padding: .1rem;
+	}
+	.topCharts {
+		height: 40vh;
+		display: flex;
+		justify-content: space-between;
+		.whiteBoard {
+			background: #fff;
+			h3 {
+				font-size: 1.8rem;
+			}
+			.inner {
+				margin: 1rem;
+			}
+		}
+		.co2 {
+			width: 20%;
+		}
+		.co3 {
+			width: 22%;
+		}
+		.co6 {
+			width: 54%;
+		}
+		.sales {
+			h1 {
+				// line-height: 4;
+				margin-top: 5rem;
+				margin-bottom: 3rem;
+				text-align: center;
+				color: #f4500f;
+				font-size: 4rem;
+			}
+			.iconimg {
+				text-align: center;
+				border-radius: 50%;
+				margin: 0 auto;
+				width: 5rem;
+				height: 5rem;
+				background: rgba(243, 94, 168, 0.1);
+				ion-icon {
+					line-height: 5rem;
+					font-size: 3rem;
+					color: #f4500f;
+				}
+			}
+		}
+	}
+	.goals2 {
+		font-weight: bold;
+	}
+	.staffCharts {
+		background: #fff;
+		margin-top: 1rem;
+		padding-top: 1rem;
+		ion-select {
+			background: #eee;
+		}
+		.goals {
+			font-weight: bold;
+			font-size: 1.6rem;
+			padding: 2rem 2rem;
+		}
+		.right {
+			button {
+				background: #444b51;
+				color: #fff;
+			}
+		}
+		.museg {
+			padding: 0 1rem;
+			ion-segment-button {
+				background: #f5f5f5;
+				border: 0;
+				color: #222;
+				font-size: 1.6rem; // padding: 1rem;
+				height: 4.5rem;
+				line-height: 4.5rem;
+			}
+			.segment-button.segment-activated {
+				background: #ccc;
+				color: #222;
+				height: 4.5rem;
+			}
+		}
+		.center {
+			text-align: center;
+			color: #666;
+			font-size: 1.6rem;
+			button {
+				background: none;
+				margin-top: -1rem;
+				font-size: 2.2rem;
+				color: #666;
+			}
+			>span {
+				line-height: 8vh;
+			}
+		}
+		.right {
+			text-align: right;
+		}
+	}
+	// 圆形图表
+	#target1 {
+		// position: absolute;
+		margin: 0 auto;
+		width: 90%;
+		height: 20vh; // min-height: 90vh;
+		// background: rgba(0, 0, 0, 0.5)
+	}
+	.tagMark {
+		color: #444;
+		padding-left: 2rem;
+		span {
+			display: inline-block;
+			width: 1.4rem;
+			height: 1.4rem;
+			border-radius: 50%;
+			margin: -.3rem 1rem;
+		}
+		.orange {
+			background: #f4500f;
+		}
+		.grey {
+			background: #eee;
+		}
+	}
+	#achievement1 {
+		// position: absolute;
+		width: 80%;
+		height: 100%; // min-height: 90vh;
+		background: rgba(0, 0, 0, 0.5)
+	}
+	#staff {
+		// position: absolute;
+		width: 100%;
+		min-height: 38vh; // min-height: 90vh;
+		background: rgba(0, 0, 0, 0.1);
+	}
+	#staffTarget {
+		width: 100%;
+		min-height: 38vh; // min-height: 90vh;
+		// background: rgba(0, 0, 0, 0.5);
+		background: #fff;
+		margin-bottom: 2rem;
+	}
+	ion-select {
+		width: 100%;
+		max-width: 100% !important;
+		.select-text {
+			min-width: 6em;
+		}
+	}
+
+	// 客户列表
+	.chartTop {
+		background: #fff;
+		padding: 1rem 2rem;
+		font-size: 1.8rem;
+		color: #444;
+		line-height: 2;
+		h4 {
+			display: inline;
+			font-size: 2rem;
+			font-weight: bold;
+			color: #000;
+			line-height: 8vh;
+		}
+		span {
+			display: inline-block;
+			padding: 0 1rem;
+		}
+		ion-select {
+			background: #eee; // height: 4rem;
+		}
+	}
+	.clientTable {
+		background: #fff;
+		width: 100%; // line-height: 2;
+		font-size: 1.6rem;
+		text-align: center;
+		th {
+			padding: .6em;
+			background: #f7f5f5;
+			border-top: 1px solid #ccc;
+			border-bottom: 1px solid #ccc;
+		}
+		td {
+			padding: 1em 2rem;
+			border-bottom: 1px dashed #eee;
+			h3 {
+				font-weight: bold;
+				font-size: 1.6rem;
+			}
+			p {
+				font-weight: normal;
+				color: #bfbfbf;
+				margin: 0;
+				line-height: 2;
+			}
+		}
+		.txtLeft {
+			text-align: left;
+		}
+		.txtRed {
+			color: #ff0000;
+			font-size: 1.8rem;
+			font-weight: bold;
+		}
+	}
+
+
+	// 进度条===============
+	.progressBox {
+		display: flex;
+		margin: 3rem 1rem 0;
+		position: relative;
+		.ifshow {
+			position: absolute;
+			top: -2.6rem;
+			left: 70%;
+			z-index: 2;
+			background: rgba(0, 0, 0, 0.5);
+			display: none;
+			min-width: 10rem;
+			padding: 0 2rem;
+			font-size: 1.4rem;
+			color: #fff;
+			border-radius: .6rem;
+			line-height: 1.8;
+		}
+		.label {
+			width: 10em;
+		}
+	}
+	.progress:hover {
+		.ifshow {
+			display: block;
+		}
+	}
+	.progress {
+		line-height: 3;
+		vertical-align: middle;
+		width: 80%; // border: 1px solid #ccc;
+		background: #eee;
+		border-radius: 1rem;
+		height: 1rem;
+		overflow: hidden;
+	}
+	.Bar {
+		width: 50%;
+		height: 100%;
+		border-radius: 1rem;
+		background: #f16f31;
+	}
+	.progressBox:nth-child(2) .Bar,
+	.Vhard {
+		background: #f16f31;
+	}
+	.progressBox:nth-child(3) .Bar,
+	.hard {
+		background: #feb623;
+	}
+	.progressBox:nth-child(4) .Bar,
+	.medium {
+		background: #feb524;
+	}
+	.progressBox:nth-child(5) .Bar,
+	.easy {
+		background: #05af6b;
+	}
+	.progressBox:nth-child(6) .Bar,
+	.Veasy {
+		background: #10b9d4;
+	}
+	// 进度条end===============
+
+	.perTxt {
+		color: #999;
+		margin-top: -2px;
+		margin-right: .6rem;
+		width: 9rem;
+	}
+	.calendarModal {
+		@extend %calendarModal;
+		.modalInner {
+			width: 85vw;
+			margin: 0 auto;
+			min-height: 80vh;
+		}
+		.formBox {
+			ion-item {
+				margin: 1.6rem 0;
+				.unit {
+					width: 10rem;
+					display: inline-block;
+				}
+			}
+			ion-input {
+				background: #eee;
+				width: 10em;
+			}
+			.months {
+				border-right: 1px dashed #ccc;
+			}
+			.subRow {
+				margin-top: 3rem;
+				border-top: 1px dashed #ccc;
+				text-align: center;
+				padding-top: 1rem;
+				button {
+					background: #444b51;
+				}
+			}
+			ion-col {
+				padding: 1rem;
+			}
+			.title {
+				display: flex;
+				h2 {
+					width: 50%;
+					font-weight: bold;
+					font-size: 1.6rem;
+					margin: 0 0 1rem 0;
+					padding-left: 1rem;
+				}
+				p {
+					width: 50%;
+					text-align: right;
+					margin: 0;
+				}
+			}
+		}
+	}
+
+}

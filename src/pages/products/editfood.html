@@ -1,0 +1,234 @@
+<ion-header>
+    <ion-navbar color="white">
+        <ion-title>编辑菜单</ion-title>
+        <ion-buttons end>
+            <button ion-button class="newBtn" (click)="DelMenu()">
+                删除套餐
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+
+<ion-content>
+    <ion-row>
+		<!--左侧栏-->
+        <ion-col col-3 class="foodbg">
+			<!--全部菜品分类-->
+            <div class="sideBg">
+                <div class="sideBtn">
+                    <button [ngClass]="{'activeside': curAccountDishType == dishType}" (click)="ChangeAccountDishType(dishType)" *ngFor="let dishType of accountDishTypeList; let i = index">
+						{{dishType.name}}
+					</button>
+                </div>
+			</div>
+			<!--全部菜品-->
+            <div class="mainList">
+                <div class="topBtnBox">
+                    <button ion-button color="light" (click)="OpenDishTypeModal()">编辑分类 </button>
+                    <button ion-button color="light" (click)="OpenAddDishModal()">添加菜品 </button>
+                </div>
+                <ion-list>
+                    <div class="fooditem" *ngFor="let dish of accountDishList;let i = index;" (click)="OpenEditDishModal(dish)">
+                        <div class="toptitle">
+                            <div class="Left">
+                                <h3>
+                                    {{dish.product_name}}
+                                    <span>￥{{dish.price}}</span>
+                                </h3>
+                            </div>
+                            <div class="txtRight">
+                                <ion-checkbox item-start (ionChange)="ChooseDish(dish)" checked="{{dish.choosed===true?'':'checked'}}"></ion-checkbox>
+                            </div>
+                        </div>
+                        <p class="borderDetail">{{dish.description}}</p>
+                    </div>
+                </ion-list>
+            </div>
+		</ion-col>
+		<!--主内容区-->
+        <ion-col col-9 class="orderBox">
+            <ion-row class="topRow">
+                <ion-col col-2>
+                    <div class="borderR">
+                        套餐总价
+                        <h4 class="price">￥{{curMenuTotalMoney}}</h4>
+                    </div>
+				</ion-col>
+				<!--当前菜单菜品分类及数量-->
+                <ion-col col-2 *ngFor="let dishType of dishTypeList; let i = index">
+                    {{dishType.count}}
+                    <p>{{dishType.name}}(个)</p>
+                </ion-col>
+			</ion-row>
+			<!--内容区菜品分类-->
+            <div class="ordertype">
+                <button ion-button [ngClass]="{'active': curDishType == dishType}" (click)="ChangeDishType(dishType)" *ngFor="let dishType of dishTypeList; let i = index">
+					{{dishType.name}}
+				</button>
+            </div>
+
+            <div class="fixTable">
+                <table class="chooseTable">
+                    <tr>
+                        <th class="w5">序号</th>
+                        <th class="w10">名称</th>
+                        <th class="w20">描述</th>
+                        <th class="w10">单价</th>
+                        <th class="w5">数量</th>
+                        <th class="w10">备注</th>
+                        <th class="w10">操作</th>
+                    </tr>
+                </table>
+                <div class="fixHeight">
+                    <table class="chooseTable">
+                        <tr *ngFor="let dish of dishList; let i = index;">
+                            <td class="w5">{{i+1}}</td>
+                            <td class="w10">{{dish.product_name}}</td>
+                            <td class="w20">{{dish.description}}</td>
+                            <td class="w10">
+								<span class="chooseTable-fuhao">￥</span>
+								<span class="chooseTable-defSpan" *ngIf="dish.edit==undefined||dish.edit==false">{{dish.dishes_price}}</span>
+								<!--<span  *ngIf="dish.edit==true" class="chooseTable-fuhao">￥</span>-->
+								<ion-input type="number" *ngIf="dish.edit==true" [(ngModel)]="dish.editPrice" class="chooseTable-input"></ion-input>
+                            </td>
+                            <td class="w5">
+								<span *ngIf="dish.edit==undefined||dish.edit==false">{{dish.dishes_count}}</span>
+								<ion-input type="number" *ngIf="dish.edit==true" [(ngModel)]="dish.editCount" class="chooseTable-input-font"></ion-input>
+                            </td>
+							<td class="w10">
+								<ion-input type="number" *ngIf="dish.edit==true" [(ngModel)]="dish.editCount" class="chooseTable-input-font"></ion-input>
+
+							</td>
+                            <td class="w10">
+								<button color="dark" ion-button *ngIf="dish.edit==true" (click)="EditMenuDishConfirm(dish)">确认</button>
+								<button color="dark" ion-button *ngIf="dish.edit==true" (click)="CancelEditMenuDish(dish)">取消</button>
+								<button color="dark" ion-button *ngIf="dish.edit==undefined||dish.edit==false" (click)="EditMenuDish(dish)">编辑</button>
+								<button color="danger" ion-button *ngIf="dish.edit==undefined||dish.edit==false" (click)="DelMenuDish(dish,i)">删除</button>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </ion-col>
+    </ion-row>
+	<!--菜品分类弹窗-->
+    <div class="calendarModal editmodal" *ngIf="dishTypeModal">
+        <div class="modalInner">
+            <span class="hidebtn" (click)="CloseDishTypeModal()">
+                <ion-icon name="close"></ion-icon>
+            </span>
+            <h3 class="modalTitle">
+				菜品分类
+				<button ion-button item-end *ngIf="!addDishType" (click)="AddDishType()">添加分类</button>
+			</h3>
+            <ion-list class="typeEdit" no-lines>
+				<ion-item *ngIf="addDishType" >
+					<ion-input [(ngModel)]="addDishTypeName"></ion-input>
+					<button  ion-button item-end (click)="AddDishTypeConfirm()">确定</button>
+					<button  ion-button item-end (click)="CancelAddDishType()">取消</button>
+				</ion-item>
+                <ion-item *ngFor="let dishType of oriDishTypeList; let i = index">
+                    {{i+1}}.
+                    <span class="onename" *ngIf="dishType.edit==undefined||dishType.edit==false">{{dishType.name}}</span>
+                    <ion-input *ngIf="dishType.edit==true" [(ngModel)]="dishType.editName"></ion-input>
+
+                    <button *ngIf="dishType.edit==true" ion-button item-end (click)="EditDishTypeConfirm(dishType)">确定</button>
+                    <button *ngIf="dishType.edit==true" ion-button item-end (click)="CancelEditDishType(dishType)">取消</button>
+                    <button *ngIf="(dishType.edit==undefined||dishType.edit==false)" ion-button item-end (click)="EditDishType(dishType)">编辑</button>
+                    <button *ngIf="(dishType.edit==undefined||dishType.edit==false)" ion-button item-end (click)="DelDishType(dishType,i)">删除</button>
+                </ion-item>
+            </ion-list>
+        </div>
+	</div>
+	<!--新增产品-->
+    <div class="calendarModal" *ngIf="addOrEditDishModal">
+        <div class="modalInner">
+            <span class="hidebtn" (click)="CloseAddOrEditDishModal()">
+                <ion-icon name="close"></ion-icon>
+            </span>
+            <h3 class="modalTitle">
+                {{addOrEditDish.id>0?'编辑菜品':'新增菜品'}}
+            </h3>
+            <div class="formBox">
+                <form #ngform="ngForm">
+                    <ion-grid >
+                        <dfn class="xmb-misc-uploader" [imgSrc]="addOrEditDish.img" (onloaded)="AddOrEditDishUploadImg($event)"></dfn>
+                        <ion-item no-lines>
+                            <ion-label>
+                                类别
+                            </ion-label>
+                            <ion-select name="from" required [(ngModel)]="addOrEditDish.dishType">
+                                <span *ngFor="let dishType of oriDishTypeList">
+                                    <ion-option [value]="dishType.id">
+                                        {{dishType.name}}
+                                    </ion-option>
+                                </span>
+                            </ion-select>
+                        </ion-item>
+                        <ion-row>
+                            <ion-col col-6>
+                                <ion-item no-lines>
+                                    <ion-label>
+										<span class="red">*</span> 产品名称
+									</ion-label>
+                                    <ion-input type="text" required name="name" placeholder="名称" learInput [(ngModel)]="addOrEditDish.name">
+                                    </ion-input>
+                                </ion-item>
+                            </ion-col>
+                            <ion-col col-6>
+                                <ion-item no-lines>
+                                    <ion-label>
+                                        价格
+                                    </ion-label>
+                                    <ion-input type="number" required name="price" placeholder="价格" learInput [(ngModel)]="addOrEditDish.price">
+                                    </ion-input>
+                                </ion-item>
+                            </ion-col>
+                        </ion-row>
+                        <ion-row>
+                            <ion-col col-6>
+                                <ion-item no-lines>
+                                    <ion-label>
+                                        底价
+                                    </ion-label>
+                                    <ion-input type="number" required name="cost" placeholder="底价" learInput [(ngModel)]="addOrEditDish.cost">
+                                    </ion-input>
+                                </ion-item>
+                            </ion-col>
+                            <ion-col col-6>
+                                <ion-item no-lines>
+                                    <ion-label>
+                                        单位
+                                    </ion-label>
+                                    <ion-input type="text" required name="unit" placeholder="单位" learInput [(ngModel)]="addOrEditDish.unit">
+                                    </ion-input>
+                                </ion-item>
+                            </ion-col>
+                        </ion-row>
+                        <ion-row>
+                            <ion-col col-12>
+                                <ion-item no-lines>
+                                    <ion-label>
+                                        产品描述
+                                    </ion-label>
+                                    <ion-input type="text" name="detail" placeholder="描述" learInput [(ngModel)]="addOrEditDish.description">
+                                    </ion-input>
+                                </ion-item>
+                            </ion-col>
+                        </ion-row>
+                        <ion-row class="subRow">
+                            <ion-col col-6 class="txtR">
+                                <button ion-button class="blckBtn" [disabled]="!ngform.valid" (click)="AddOrEditDishConfirm(ngform.value)">
+                                    确定
+                                </button>
+                            </ion-col>
+                            <ion-col col-6>
+                                <button ion-button color="light" navPop>返回</button>
+                            </ion-col>
+                        </ion-row>
+                    </ion-grid>
+                </form>
+            </div>
+        </div>
+    </div>
+</ion-content>

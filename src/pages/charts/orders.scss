@@ -1,0 +1,133 @@
+page-orders {
+    @extend %chartPage; // 财务数据
+    .bggreen {
+        color: #4dd56d;
+    }
+    .fixTable {
+        @extend %fixTable;
+        .tableHeight {
+            height: 66vh;
+            overflow-y: scroll;
+            background: #fff;
+        }
+        .fixHeight {
+            height: 50vh;
+        }
+    }
+    .clientTable {
+        background: #fff;
+        width: 100%; // line-height: 2;
+        font-size: 1.6rem;
+        text-align: center;
+        th {
+            // padding: .6em;
+            padding: .6em 0;
+            background: #f7f5f5;
+            border-top: 1px solid #ccc;
+            border-bottom: 1px solid #ccc;
+        }
+        td {
+            padding: 1.2em 0;
+            border-bottom: 1px dashed #eee;
+            h3 {
+                font-weight: bold;
+                font-size: 1.6rem;
+            }
+            p {
+                font-weight: normal;
+                color: #bfbfbf;
+                margin: 0;
+                line-height: 2;
+            }
+        }
+        .txtRed {
+            color: #ff0000;
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+    }
+    .finaTable {
+        font-size: 1.4rem;
+        color: #333;
+        .nameCell {
+            width: 10em;
+            overflow: hidden;
+            padding: 0;
+            text-align: left;
+            display: inline-block;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            float: left;
+            margin-left: 10px;
+            text-align: center;
+        }
+        .priceCell {
+            width: 5em;
+            line-height: 3em;
+        }
+        .percentCell {
+            width: 3em;
+            line-height: 3em;
+        }
+        .green {
+            display: inline-block;
+            color: #4dd56d;
+            width: 5em;
+            float: right;
+            padding: 0; //margin-left: 1.6em;
+        }
+        td>span {
+            display: inline-block;
+            padding-left: 1rem;
+        }
+    }
+    .pagebar {
+        text-align: right;
+        margin-top: .6em;
+    }
+    .totalbar{
+        margin-top: .6em;
+        padding-left: 2em;
+        line-height: 3;
+    }
+    button.active {
+        background: #ff0000;
+        color: #fff;
+    }
+    .headCon {
+        padding: 0 2em 1em;
+        h3 {
+            line-height: 2;
+        }
+    }
+    .searchRow{
+        padding: 0 1em;
+    }
+    .searchRow ion-select,
+    .searchRow ion-datetime {
+        background: #eee !important;
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+    .searchRow ion-label {
+        flex: none !important;
+    }
+    .headCon{
+        // background: #fff;
+    }
+    .trItem{
+        cursor: pointer;
+        &:hover{
+            background: #f2f2f2;
+        }
+    }
+    .blickBtn{
+        background: #333;
+        color: #fff;
+        font-size: 1.4rem;
+        padding: .2em .4em;
+        &:hover{
+            color: #fff !important;
+        }
+    }
+}

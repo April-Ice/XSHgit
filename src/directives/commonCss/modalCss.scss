@@ -1,0 +1,124 @@
+%calendarModal {
+	position: absolute;
+	top: 0;
+	left: 0;
+	min-height: 94.1vh;
+	width: 100vw;
+	background: rgba(0, 0, 0, .7);
+	z-index: 3;
+	.modalInner {
+		margin: 4rem auto;
+		background: #fff;
+		border-radius: .6rem;
+		height: 100%;
+		min-height: 80vh;
+		position: relative;
+		$sizebtn: 2.8rem;
+		.hidebtn {
+			cursor: pointer;
+			display: block;
+			position: absolute;
+			top: -($sizebtn * 1.3);
+			right: -.2rem;
+			background: #ff0000;
+			border-radius: 50%;
+			height: $sizebtn;
+			width: $sizebtn;
+			text-align: center;
+			line-height: $sizebtn;
+			font-size: 2.2rem;
+			color: #fff;
+		}
+		.modalTitle {
+			padding: 1.6rem 2rem;
+			margin: 0;
+			font-size: 1.8rem;
+			text-align: center;
+			border-bottom: 1px solid #eee;
+		}
+		.modalCon{
+			padding: 2rem;
+		}
+	}
+
+	// 弹窗表单
+	.formBox {
+		width: 96%;
+		margin: 0 auto;
+		ion-label {
+			width: 7em;
+			max-width: 7em;
+		}
+		ion-select,
+		ion-datetime,
+		ion-input {
+			width: calc(100% - 10em);
+			background: #eee;
+		}
+		ion-row {
+			margin: 1rem 0;
+		}
+		.subRow {
+			margin-top: 4rem;
+			border-top: 1px solid #eee;
+			padding-top: 3rem;
+			ion-col {
+				padding: 0 4rem;
+				button {
+					height: 3.6rem;
+				}
+				.blckBtn {
+					background: #222;
+				}
+			}
+			.txtR {
+				text-align: right;
+			}
+			.red {
+				color: #ff0000;
+			}
+		}
+	}
+}
+// 新增产品--带图片上传
+.newAdd {
+	ion-select,
+	ion-input {
+		width: 13em;
+		min-width: 13em;
+		background: #eee;
+		margin-bottom: 1rem;
+	}
+}
+
+%lineModal {
+	@extend %calendarModal; // 单行表单Modal
+	.modalInner {
+		max-width: 30em;
+		margin: 20vh auto;
+		min-height: 20vh;
+	}
+	.mainCon {
+		padding: 2.6rem 2rem !important;
+		ion-item {
+			max-width: 30em;
+			ion-label {
+				max-width: 4.5em !important;
+			}
+			ion-select,
+			ion-input {
+				width: 8em;
+				background: #eee;
+			}
+		}
+	}
+	.blckBtn {
+		background: #444b51;
+		height: 3.6rem;
+		min-width: 4em;
+		font-size: 1.6rem;
+	}
+	.txtC{
+		text-align: center;
+	}
+}

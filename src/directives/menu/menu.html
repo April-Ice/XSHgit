@@ -1,0 +1,27 @@
+<ion-list class="productMenu">
+	<div class="orange" [ngClass]="{'active': active == 'food'}" tappable  (click)="gotoMenu('food')">
+		<div class="iconbox">
+			<ion-icon name="restaurant"></ion-icon>
+		</div>
+		餐饮
+	</div>
+	<div class="red" *ngIf="!ifHotel" [ngClass]="{'active': active == 'wedding'}" tappable (click)="gotoMenu('wedding')">
+		<div class="iconbox">
+			<ion-icon name="heart"></ion-icon>
+		</div>
+		婚礼
+	</div>
+
+	<div class="green" [ngClass]="{'active': active == 'meeting'}" tappable (click)="gotoMenu('meeting')">
+		<div class="iconbox">
+			<ion-icon name="md-contacts"></ion-icon>
+		</div>
+		会议
+	</div>
+	<div class="yellow" [ngClass]="{'active': active == 'room'}" tappable (click)="gotoMenu('room')">
+		<div class="iconbox">
+			<ion-icon name="md-home"></ion-icon>
+		</div>
+		客房
+	</div>
+</ion-list>

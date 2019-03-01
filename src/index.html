@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Ionic App</title>
+	<meta name="viewport" content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<meta name="format-detection" content="telephone=no">
+	<meta name="msapplication-tap-highlight" content="no">
+
+	<link rel="icon" type="image/x-icon" href="assets/icon/favicon.ico">
+	<link rel="manifest" href="manifest.json">
+	<meta name="theme-color" content="#4e8ef7">
+
+	<!-- add to homescreen for ios -->
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+	<!-- cordova.js required for cordova apps (remove if not needed) -->
+	<script src="cordova.js"></script>
+
+
+	<!-- un-comment this code to enable service worker
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('service-worker.js')
+        .then(() => console.log('service worker installed'))
+        .catch(err => console.error('Error', err));
+    }
+  </script>-->
+
+	<link rel="stylesheet" href="assets/swiper-4.3.3.min.css">
+	<link href="build/main.css" rel="stylesheet">
+
+	<script src="assets/swiper-4.3.3.min.js"></script>
+	<script type="text/javascript" src="assets/oss-h5-upload-js-direct/lib/crypto1/crypto/crypto.js"></script>
+	<script type="text/javascript" src="assets/oss-h5-upload-js-direct/lib/crypto1/hmac/hmac.js"></script>
+	<script type="text/javascript" src="assets/oss-h5-upload-js-direct/lib/crypto1/sha1/sha1.js"></script>
+	<script type="text/javascript" src="assets/oss-h5-upload-js-direct/lib/base64.js"></script>
+	<script type="text/javascript" src="assets/oss-h5-upload-js-direct/lib/plupload-2.1.2/js/plupload.full.min.js"></script>
+
+	<style>
+		.preLoadCon {
+			text-align: center;
+            /* background: #1E88E5; */
+            background: #000 url(assets/imgs/index/initBg.jpg) no-repeat center;
+            background-size: 100%;
+			/* background-image: linear-gradient(120deg, #a6c0fe 0%, #f68084 100%); */
+			height: 100vh;
+            padding-top: 30vh;
+        }
+
+        .preLoadCon .txt1 img{
+            width: 55vw;
+        }
+
+        .preLoadCon .txt2{
+            margin-top: 10vh;
+        }
+        .preLoadCon .txt2 img{
+            width: 20vw;
+        }
+
+		.Prespinner {
+			margin: 100px auto 0;
+			width: 150px;
+			text-align: center;
+		}
+
+		.Prespinner>div {
+			width: 20px;
+			height: 20px;
+			background-color: rgb(143, 145, 146);
+
+			border-radius: 100%;
+			display: inline-block;
+			-webkit-animation: bouncedelay 1.4s infinite ease-in-out;
+			animation: bouncedelay 1.4s infinite ease-in-out;
+			-webkit-animation-fill-mode: both;
+			animation-fill-mode: both;
+		}
+
+		.Prespinner .bounce1 {
+			-webkit-animation-delay: -0.32s;
+			animation-delay: -0.32s;
+		}
+
+		.Prespinner .bounce2 {
+			-webkit-animation-delay: -0.16s;
+			animation-delay: -0.16s;
+		}
+
+		@-webkit-keyframes bouncedelay {
+			0%,
+			80%,
+			100% {
+				-webkit-transform: scale(0.0)
+			}
+			40% {
+				-webkit-transform: scale(1.0)
+			}
+		}
+
+		@keyframes bouncedelay {
+			0%,
+			80%,
+			100% {
+				transform: scale(0.0);
+				-webkit-transform: scale(0.0);
+			}
+			40% {
+				transform: scale(1.0);
+				-webkit-transform: scale(1.0);
+			}
+		}
+
+	</style>
+
+</head>
+
+<body>
+
+	<!-- Ionic's root component and where the app will load -->
+	<ion-app class="xmb">
+		<boot>
+			<div class="preLoadCon">
+                <div class="txt1" >
+                    <img class="tex1-img" src="assets/imgs/index/initTxt1.png" alt="">
+                </div>
+                <div class="txt2">
+                    <img class="tex2-img" src="assets/imgs/index/index_3.png" alt="" style="width: 180px">
+                </div>
+				<!--<div class="txt1">-->
+					<!--<img class="tex3-img" src="assets/imgs/index/initTxt3.png" alt="">-->
+				<!--</div>-->
+				<!-- 正在加载 -->
+				<div class="Prespinner">
+					<div class="bounce1"></div>
+					<div class="bounce2"></div>
+					<div class="bounce3"></div>
+				</div>
+
+			</div>
+		</boot>
+	</ion-app>
+
+
+
+
+
+	<!-- The polyfills js is generated during the build process -->
+	<script src="build/polyfills.js"></script>
+
+	<!-- The vendor js is generated during the build process
+       It contains all of the dependencies in node_modules -->
+	<script src="build/vendor.js"></script>
+
+	<!-- The main bundle js is generated during the build process -->
+	<script src="build/main.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,267 @@
+page-wedding {
+    ion-buttons {
+        max-height: 2.2em;
+        overflow: hidden;
+    }
+    .orangeEnd {
+        background: transparent !important;
+        color: rgb(216, 149, 83);
+    }
+	.orangeEnd ion-label{
+		margin-top: 0
+	}
+	.orangeEnd ion-select{
+		padding-top: 0;
+	}
+    .nopadding,
+    ion-col[col-1] {
+        padding: 0;
+    }
+    .morebtn {
+        text-align: right;
+        button {
+            color: #444;
+            &:hover {
+                color: #444 !important;
+            }
+        }
+        color: #444;
+    }
+    .menubg {
+        @extend %menubg;
+    }
+    .typebg {
+        @extend %typebg;
+    }
+    .product-box {
+        @extend %product-box;
+    }
+    .calendarModal {
+        @extend %calendarModal;
+        .modalInner {
+            width: 70vw;
+            min-height: 70vh;
+        }
+    }
+    .orderModal {
+        // 单行表单Modal
+        @extend %lineModal;
+    }
+    .colorBox {
+        // background: #eee url(assets/imgs/product/stylebg.png) no-repeat center;
+        // background-size: 100% 100%;
+        height: 93vh;
+        overflow: hidden;
+        padding: 8vh 14vh;
+        width: 100%;
+        text-align: center;
+        position: relative;
+        .bgImg {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden; // z-index: -1;
+            img {
+                width: 100%;
+                min-height: 100%;
+            }
+        }
+        .title {
+            margin-top: 8vh;
+            margin-bottom: 6vh;
+            z-index: 2;
+            h3 {
+                font-size: 3.6rem;
+                text-transform: uppercase;
+                color: #999;
+                font-weight: normal;
+            }
+            h2 {
+                font-size: 3.6rem;
+                .decLeft {
+                    display: inline-block;
+                    height: 2rem;
+                    width: 3.6rem;
+                    background-size: 1rem;
+                    background: url(../assets/imgs/product/iconL.png) no-repeat center;
+                }
+                .decRight {
+                    display: inline-block;
+                    height: 2rem;
+                    width: 3.6rem;
+                    background-size: 1rem;
+                    background: url(../assets/imgs/product/iconR.png) no-repeat center;
+                }
+            }
+        }
+        .roundBox {
+            cursor: pointer;
+            z-index: 2;
+            width: 20vh;
+            height: 20vh;
+            border-radius: 50%;
+            border: 1.4px solid #666;
+            margin: 0 auto; // padding: 1rem 0;
+            &:hover {
+                background: linear-gradient(#fff, #efefef);
+            }
+            .trigle {
+                display: block;
+                width: 1rem;
+                margin: 0 auto;
+                height: 0;
+                font-size: 0;
+                line-height: 0;
+                border-style: solid;
+                border-width: 7px 7px 0 7px;
+                border-color: #ffd500 transparent;
+            }
+            h5 {
+                color: #000;
+                font-weight: bold;
+                font-size: 2rem;
+                text-transform: uppercase;
+                margin-top: 2.8rem;
+            }
+            p {
+                line-height: 1.6;
+                margin: 0;
+            }
+        }
+    }
+    .ordertype {
+        padding: 0 2rem;
+        margin-top: .6rem;
+        button {
+            height: 2.4em;
+            background: transparent;
+            color: #000;
+            border-right: 1px solid #ccc; // border-radius: 0;
+        }
+        button.active {
+            background: #484c55;
+            color: #fff;
+        }
+    }
+    .uploader-avatar {
+        display: block;
+        position: relative;
+        width: 15rem;
+        height: 15rem;
+        margin: 2rem auto;
+        background: #000 url(../assets/imgs/system/upload.jpg) no-repeat center;
+        background-size: 100%; // cursor: pointer;
+        img {
+            width: 100%;
+            min-height: 100%;
+        }
+        input {
+            height: 100%;
+            width: 100%;
+            display: block;
+            cursor: pointer;
+        }
+        ion-spinner {
+            position: absolute;
+            top: 45%;
+            left: 45%;
+            z-index: 2;
+            width: 2rem;
+            height: 2rem;
+        }
+    }
+	.product-box .person-toptitle{
+		height: 6vh;
+	}
+	.person-div .person-div-item{
+		height: 80vh;
+	}
+    @media screen and (min-width: 1024px) {
+        .newAdd {
+            .modalInner {
+                max-width: 50vw;
+                min-height: 70vh;
+            }
+        }
+        .modalTitle {
+            padding: 1rem 1rem;
+        } // .orderModal {
+        // 	.modalInner {
+        // 		width: 30vw;
+        // 		margin: 20vh auto;
+        // 		min-height: 20vh;
+        // 	}
+        // 	.mainCon {
+        // 		padding: 2.6rem 4rem !important;
+        // 		ion-select {
+        // 			background: #eee; // min-width: 70%;
+        // 		}
+        // 	}
+        // 	.txtR {
+        // 		text-align: right;
+        // 	}
+        // 	.txtC {
+        // 		text-align: center;
+        // 	}
+        // 	.subrow {
+        // 		border-top: 1px dashed #eee;
+        // 		margin-top: 2rem;
+        // 		padding-top: 1rem;
+        // 		button{
+        // 			height: 3.6rem;
+        // 		}
+        // 	}
+        // 	.blckBtn {
+        // 		// margin-top: 2rem;
+        // 		background: #444b51;
+        // 	}
+        // 	.lineBtn {
+        // 		button {
+        // 			height: 3.6rem;
+        // 		}
+        // 	}
+        // 	.lineSelect {
+        // 		label {
+        // 			width: 4rem;
+        // 		}
+        // 		ion-input,
+        // 		ion-select {
+        // 			width: 8em;
+        // 			min-width: 8em;
+        // 		}
+        // 	}
+        // 	.newAdd {
+        // 		ion-select,
+        // 		ion-input {
+        // 			width: 13em;
+        // 			min-width: 13em;
+        // 			background: #eee;
+        // 			margin-bottom: 1rem;
+        // 		}
+        // 	}
+		// }
+		.top_box{
+			position: relative;
+		}
+        .top {
+            background: url("/assets/imgs/product/top.png");
+            width: 32px;
+            height: 32px;
+            position: absolute;
+            right: 0;
+		}
+		.stick{
+			background: url("/assets/imgs/product/stick.png");
+			background-size: 100% 100%;
+            height: .9em;
+		}
+		.cancel_stick{
+			background: url("/assets/imgs/product/stick.png");
+			background-size: 100% 100%;
+			height: .9em;
+			transform:rotate(180deg);
+		}
+    }
+}

@@ -1,0 +1,11 @@
+.xmb-chartmenu {
+	font-style: normal !important;
+	.active {
+		background: #eee !important;
+	}
+	.typebtn {
+		&:hover {
+			background: #eee !important;
+		}
+	}
+}

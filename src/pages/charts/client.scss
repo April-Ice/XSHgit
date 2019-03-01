@@ -1,0 +1,64 @@
+page-client{
+	@extend %chartPage;
+
+	// 客户列表
+	.chartTop {
+		background: #fff;
+		padding: 1rem 2rem;
+		font-size: 1.8rem;
+		color: #444;
+		line-height: 2;
+		h4 {
+			display: inline;
+			font-size: 2rem;
+			font-weight: bold;
+			color: #000;
+			line-height: 8vh;
+		}
+		span {
+			display: inline-block;
+			padding: 0 1rem;
+		}
+		ion-select {
+			background: #eee; // height: 4rem;
+		}
+	}
+	.clientTable {
+		background: #fff;
+		width: 100%; // line-height: 2;
+		font-size: 1.6rem;
+		text-align: center;
+		th {
+			padding: .6em;
+			background: #f7f5f5;
+			border-top: 1px solid #ccc;
+			border-bottom: 1px solid #ccc;
+		}
+		td {
+			padding: 1em 2rem;
+			border-bottom: 1px dashed #eee;
+			h3 {
+				font-weight: bold;
+				font-size: 1.6rem;
+			}
+			p {
+				font-weight: normal;
+				color: #bfbfbf;
+				margin: 0;
+				line-height: 2;
+			}
+		}
+		.txtLeft {
+			text-align: left;
+		}
+		.txtRed {
+			color: #ff0000;
+			font-size: 1.8rem;
+			font-weight: bold;
+		}
+	}
+	.tableHeight{
+		height: 78vh;
+		overflow: auto;
+	}
+}

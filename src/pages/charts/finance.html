@@ -1,0 +1,695 @@
+<ion-header>
+	<ion-navbar color="white">
+		<ion-title>财务报表</ion-title>
+	</ion-navbar>
+</ion-header>
+<ion-content>
+	<ion-grid class="nopadding">
+		<ion-row>
+			<ion-col col-2 class="typebg">
+				<dfn class="xmb-chartmenu" [preload]="{active:'finance'}"></dfn>
+			</ion-col>
+			<ion-col col-10 class="chart-box">
+				<!-- 财务数据 -->
+				<div class="greyBg">
+					<ion-row class="circleTop">
+						<ion-col col-4>
+							<div class="bgBox">
+								<p>年度毛利 profit</p>
+								<ion-item no-lines>
+									<ion-avatar item-start>
+										<img src="assets/imgs/chart/greenball.jpg">
+									</ion-avatar>
+									<h2>{{totalA?.profit}}</h2>
+									<p>Calculated in 1930 THu</p>
+								</ion-item>
+							</div>
+						</ion-col>
+						<ion-col col-4>
+							<div class="bgBox">
+								<p>年度总实收金额 real income</p>
+								<ion-item no-lines>
+									<ion-avatar item-start>
+										<img src="assets/imgs/chart/purpleball.jpg">
+									</ion-avatar>
+									<h2>{{totalA?.receive}}</h2>
+									<p>Calculated in 1930 THu</p>
+								</ion-item>
+							</div>
+						</ion-col>
+						<ion-col col-4>
+							<div class="bgBox">
+								<p>年度总合同金额 contract value</p>
+								<ion-item no-lines>
+									<ion-avatar item-start>
+										<img src="assets/imgs/chart/blueball.jpg">
+									</ion-avatar>
+									<h2>{{totalA?.money}}</h2>
+									<p>Calculated in 1930 THu</p>
+								</ion-item>
+							</div>
+						</ion-col>
+					</ion-row>
+					<ion-row class="fixTable">
+						<ion-col>
+							<table class="clientTable finaTable f-table">
+								<div class="search-div">
+									<div class="search-div-left">
+										<div>
+											<ion-icon name="search"></ion-icon>
+											<ion-input name="addItemname" type="text" required [(ngModel)]="searchText"></ion-input>
+										</div>
+										<button ion-button (click)="searchOrders()">搜索</button>
+									</div>
+
+									<select class="span12 chosen_category" [(ngModel)]="month" (ngModelChange)="switchMonth(n)">
+										<option value="" disabled selected>Month</option>
+										<option *ngFor="let value of monthList;let n = indx;">{{value}}</option>
+									</select>
+									<select style="margin-right: 10px" class="span12 chosen_category" [(ngModel)]="year" (ngModelChange)="switchYear()">
+										<option value="" disabled selected>Year</option>
+										<option *ngFor="let value of yearList;let m = indx;">{{value}}</option>
+									</select>
+								</div>
+								<tr>
+									<td style="width:25%;text-align: left;padding-left: 5%;">基本信息</td>
+									<td style="width:15%">执行成本</td>
+									<td style="width:15%">酒店/网络返点</td>
+									<td style="width:10%">定金</td>
+									<td style="width:10%">中期款</td>
+									<td style="width:10%">尾款</td>
+									<!-- <td class="w10">合同总额</td> -->
+									<td class="w10">毛利率</td>
+									<!--<td class="endwidth"></td>-->
+								</tr>
+							</table>
+
+							<div class="tableHeight">
+								<table class="clientTable finaTable f-table-b">
+									<tr *ngFor="let item of pricelists;let i = index">
+										<td style="width:25%">
+											<span class="nameCell" style='text-align: left;padding-left: 10%;'>{{item.order_name}}</span>
+											<span class="green" tappable (click)="showAssign(item.id,item)">业绩分配</span>
+											<span style="width: 100%;text-align: left;margin-top: 3%;padding-left: 14%;font-size: 10px;color: rgb(216, 148, 148);float: left">{{item.space_name}}
+												{{hall_name}}</span>
+											<!--<span style="width: 50%;font-size: 10px;color: #999;float: right">{{item.order_date}}</span>-->
+											<span style="width: 100%;text-align: left;margin-top: 3%;padding-left: 14%;font-size: 10px;color: #999">{{item.order_date}}</span>
+										</td>
+										<td style="width:15%;position: relative">
+											<span class="priceCell" style="overflow: hidden;height: 3.6em;text-overflow: ellipsis;white-space:nowrap; "
+											 (mouseenter)="showPrice(i)" (mouseleave)="hidePrice(i)">￥{{item.executory_costs}}</span>
+											<!--<span class="priceCell">￥{{item.executory_costs}}</span>-->
+											<span style="position: absolute;top: 2.2em">
+												<ion-icon name="arrow-dropright" tappable (click)="showCostMoal(item.id)"></ion-icon>
+											</span>
+											<span style="position: absolute;top: 4em;left:4em" *ngIf="item.showPri">￥{{item.executory_costs}}</span>
+										</td>
+										<td style="width:15%">
+											<span class="percentCell">{{item.channel_rate}}%</span>
+											<span>
+												<ion-icon name="arrow-dropright" tappable (click)="showRebateModal(item)"></ion-icon>
+											</span>
+										</td>
+										<td style="width:10%">
+											<span class="priceCell">￥{{item.early_payment}}</span>
+											<span>
+												<ion-icon name="arrow-dropright" tappable (click)="showPaymentModal(0,item.early_payment,item.id)"></ion-icon>
+											</span>
+										</td>
+										<td style="width:10%">
+											<span class="priceCell">￥{{item.minddle_payment}}</span>
+											<span>
+												<ion-icon name="arrow-dropright" tappable (click)="showPaymentModal(1,item.minddle_payment,item.id)"></ion-icon>
+											</span>
+										</td>
+										<td style="width:10%">
+											<span class="priceCell">￥{{item.final_payment}}</span>
+											<span>
+												<ion-icon name="arrow-dropright" tappable (click)="showPaymentModal(2,item.final_payment,item.id)"></ion-icon>
+											</span>
+										</td>
+										<!-- <td class="w10 f-table-td">￥{{item.order_money}}</td> -->
+										<td class="w10 f-table-td">{{item.gross_profit_rate==0?0:item.gross_profit_rate.toFixed(2)}}%</td>
+									</tr>
+									<div style="width: 100%;float: left;background: #eee;border-top: 1px solid #666;">
+										<div class="getMore">
+											<div class="getMore-div" (click)="doInfinite()">
+												<span></span>
+											</div>
+											<span>点击加载更多</span>
+										</div>
+
+									</div>
+								</table>
+							</div>
+
+							<!--<ion-infinite-scroll (ionInfinite)="doInfinite($event)" [threshold]="'10%'" immediate-check="false">-->
+							<!--<ion-infinite-scroll-content-->
+							<!--loadingSpinner="bubbles"-->
+							<!--loadingText="加载中...">-->
+							<!--</ion-infinite-scroll-content>-->
+							<!--</ion-infinite-scroll>-->
+
+						</ion-col>
+					</ion-row>
+				</div>
+
+			</ion-col>
+		</ion-row>
+	</ion-grid>
+
+	<!-- 业务分配弹窗 -->
+	<div class="calendarModal taskModal" *ngIf="modalVisible" (click)="hideModal()">
+		<div class="modalInner" (click)="stopP($event)">
+			<span class="hidebtn" tappable (click)="hideModal()">
+				<ion-icon name="close"></ion-icon>
+			</span>
+			<h3 class="modalTitle">
+				业绩分配
+			</h3>
+			<div class="modalCon">
+				<ion-row>
+					<ion-col col-6 class="title">
+						订单总价 【￥{{agginAllData.payment_money}}】
+					</ion-col>
+					<ion-col col-6 class="txtRight">
+						<button class="greyBtn" ion-button *ngIf="!ifAddGoals" (click)="addGoalItem()">新增</button>
+						<button class="greyBtn" ion-button (click)="editGoals()">设置默认比例</button>
+					</ion-col>
+				</ion-row>
+				<div class="fixTable">
+					<table class="clientTable extraTable">
+						<tr>
+							<th class="w20">项目</th>
+							<th class="w20">比例</th>
+							<th class="w20">金额</th>
+							<th class="w20">人员</th>
+							<th>操作</th>
+							<th class="endwidth"></th>
+						</tr>
+					</table>
+					<div class="fixHeight">
+						<form #ngformOne="ngForm" class="formBox">
+							<table class="clientTable extraTable">
+								<!-- 新增业务分配 -->
+								<tr *ngIf="ifAddGoals">
+									<td class="inputline w20">
+										<ion-input name="addItemname" type="text" required [(ngModel)]="addItemname"></ion-input>
+									</td>
+									<td class="inputline w20">
+										<ion-input name="addItempercent" type="number" [(ngModel)]="addItempercent" (ngModelChange)="changePrice()"></ion-input>%
+									</td>
+									<td class="inputline w20">￥ {{addItempercentPrice}}
+									</td>
+									<td class="selectline w20">
+										<ion-item no-lines>
+											<ion-select name="staff_id" [(ngModel)]="addItemstaff">
+												<ion-option [value]="value.id" *ngFor="let value of allStaff;let m = indx;">
+													{{value.name}}
+												</ion-option>
+											</ion-select>
+										</ion-item>
+									</td>
+									<td>
+										<span tappable (click)="submitaddGoals()">
+											<ion-icon class="bggreen" name="checkmark-circle"></ion-icon>
+										</span>
+										<span tappable (click)="hideAddGoals()">
+											<ion-icon class="bgred" name="close-circle"></ion-icon>
+										</span>
+									</td>
+								</tr>
+								<tr *ngFor="let item of goalslists; let i = index">
+									<td class="w20">{{item.participant_name}}</td>
+									<td class="inputline w20">
+										<ion-input type="number" name="{{'commission'+i}}" [(ngModel)]="item.commission" (ngModelChange)="submitPercent(item)"></ion-input>%
+									</td>
+									<td class="w20">￥{{item.money}}</td>
+									<td class="selectline w20">
+										<ion-item no-lines>
+											<ion-select name="{{'staff'+i}}" [(ngModel)]="item.staff_id" (ngModelChange)="submitStaff(item)">
+												<ion-option [value]="staff.id" *ngFor="let staff of allStaff;let m = index;">
+													{{staff.name}}
+												</ion-option>
+											</ion-select>
+										</ion-item>
+									</td>
+									<td>
+										<ion-icon name="trash" tappable (click)="delGoalItem(item,i)"></ion-icon>
+									</td>
+								</tr>
+							</table>
+						</form>
+					</div>
+					<ion-row class="subRow">
+						<ion-col col-6>
+							<button ion-button class="blckBtn" (click)="formSubmit(ngformOne.value)" style="float: right">
+								确定
+							</button>
+						</ion-col>
+						<ion-col col-6>
+							<button ion-button class="blckBtn" (click)="hideModal()" style="float: left">
+								取消
+							</button>
+						</ion-col>
+					</ion-row>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+	<!-- 设置默认比例弹窗 -->
+	<div class="calendarModal setoModal" *ngIf="setboxVisible">
+		<div class="modalInner">
+			<span class="hidebtn" tappable (click)="hidesetModal()">
+				<ion-icon name="close"></ion-icon>
+			</span>
+			<h3 class="modalTitle">
+				设置默认比例
+			</h3>
+
+			<ion-row class="newPro">
+				<ion-col col-8 class="txtRight">
+					<ion-item no-lines *ngIf="isAddCompanyAchievementDistribution">
+						<ion-label>项目名称</ion-label>
+						<ion-input type="text" name="onename" placeholder="请输入项目名称" clearInput [(ngModel)]="addDefaultName">
+						</ion-input>
+					</ion-item>
+					<ion-item no-lines *ngIf="isAddCompanyAchievementDistribution">
+						<ion-label>项目比例</ion-label>
+						<ion-input type="number" name="onepercent" placeholder="请输入项目比例" clearInput [(ngModel)]="addDefaultPercent">
+						</ion-input>
+					</ion-item>
+				</ion-col>
+				<ion-col col-4 class="txtRight">
+					<button class="greyBtn" *ngIf="!isAddCompanyAchievementDistribution" ion-button (click)="addCompanyAchievementDistribution()">添加新项目</button>
+					<button class="greyBtn" *ngIf="isAddCompanyAchievementDistribution" ion-button (click)="addCompanyAchievementDistributionConfirm()">确定</button>
+					<button class="greyBtn" *ngIf="isAddCompanyAchievementDistribution" ion-button (click)="cancelAddCompanyAchievementDistribution()">取消</button>
+				</ion-col>
+			</ion-row>
+
+			<div class="formBox">
+				<!-- <form #ngform="ngForm" class="formBox"> -->
+				<ion-grid>
+					<ion-row>
+						<ion-col col-12>
+							<div no-lines class="title">
+								<h2>项目</h2>
+								<p>比例</p>
+							</div>
+							<div class="bodyCon">
+								<ion-item no-lines *ngFor="let item of companyAchievementDistributionList; let i = index">
+									<ion-label>{{item.name}}</ion-label>
+									<ion-input type="number" name="1" [(ngModel)]="item.commission" (ngModelChange)="editCompanyAchievementDistribution(item)">
+									</ion-input>
+									<em class="perEm" item-end>%</em>
+									<span class="unit" item-end>
+										<ion-icon name="trash" tappable (click)="delCompanyAchievementDistribution(item,i)"></ion-icon>
+									</span>
+								</ion-item>
+							</div>
+						</ion-col>
+					</ion-row>
+					<!-- <ion-row class="subRow">
+							<ion-col col-12>
+								<button ion-button class="blckBtn" [disabled]="!ngform.valid" (click)="formSubmit(ngform.value)">
+									确定
+								</button>
+							</ion-col>
+						</ion-row> -->
+				</ion-grid>
+				<!-- </form> -->
+			</div>
+		</div>
+	</div>
+
+	<!-- 设置返点弹窗 -->
+	<div class="calendarModal setoModal backModal" *ngIf="setRebateVisible">
+		<div class="modalInner">
+			<span class="hidebtn" tappable (click)="hideRebateModal()">
+				<ion-icon name="close"></ion-icon>
+			</span>
+			<h3 class="modalTitle">
+				设置酒店/网络返点
+			</h3>
+			<div class="formBox">
+				<!-- <form #ngform="ngForm" class="formBox"> -->
+				<ion-grid>
+					<ion-row>
+						<ion-col col-12>
+							<ion-item no-lines>
+								<ion-label>项目</ion-label>
+								<ion-input class="finance-input" type="text" tappable disabled (click)="showChannelModal()" [value]="channel_name">
+								</ion-input>
+								<ion-icon item-end name="arrow-dropdown-circle" tappable (click)="showChannelModal()"></ion-icon>
+							</ion-item>
+							<ion-item no-lines>
+								<ion-label>提点比例</ion-label>
+								<ion-input type="number" [ngModelOptions]="{standalone: true}" [(ngModel)]="channel_rate">
+								</ion-input>
+								<em class="perEm" item-end>%</em>
+							</ion-item>
+							<ion-item no-lines>
+								<ion-label>金额</ion-label>
+								<ion-input type="number" disabled [value]="channel_rate * 0.01 * curOrder.actual_payment">
+								</ion-input>
+								<em class="perEm" item-end>￥</em>
+							</ion-item>
+						</ion-col>
+					</ion-row>
+					<div class="subRow">
+						<ion-col col-12>
+							<button ion-button class="blckBtn" (click)="rebateConfirm()">
+								确定
+							</button>
+						</ion-col>
+					</div>
+				</ion-grid>
+				<!-- </form> -->
+
+				<!-- 项目名称弹窗 -->
+				<div *ngIf="channelModalVisibel" class="newItemBox">
+					<ion-item no-lines *ngFor="let item of channelList; let i = index">
+						<ion-label tappable (click)="seleteChannel(item)">{{item.name}}</ion-label>
+						<ion-icon item-end class="icon-red" name="trash" tappable (click)="delChannel(item.id,i)"></ion-icon>
+					</ion-item>
+					<ion-item no-lines>
+						<ion-input type="text" name="onename" placeholder="请输入项目名称" clearInput [(ngModel)]="add_channel_name"></ion-input>
+					</ion-item>
+					<ion-row class="newPro">
+						<ion-col col-12 class="txtCenter">
+							<button color="light" ion-button (click)="addChannel()">新建</button>
+						</ion-col>
+					</ion-row>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+
+	<!-- 设置定金-中期款-尾款弹窗 -->
+	<div class="calendarModal taskModal paymentModal" *ngIf="setPaymentVisible">
+		<div class="modalInner">
+			<span class="hidebtn" tappable (click)="hidePaymentModal()">
+				<ion-icon name="close"></ion-icon>
+			</span>
+			<h3 class="modalTitle">
+				<span *ngIf="paymentType==0">定金</span>
+				<span *ngIf="paymentType==1">中期款</span>
+				<span *ngIf="paymentType==2">尾款</span>
+			</h3>
+			<div class="modalCon">
+				<ion-row>
+					<ion-col col-6 class="title">
+						订单总价 【￥{{paymentTotal}}】
+					</ion-col>
+					<ion-col col-6 class="txtRight">
+						<button class="greyBtn" ion-button *ngIf="!ifAddPayment" (click)="addPaymentItem()">新增</button>
+						<!-- <button class="greyBtn" ion-button (click)="editGoals()">设置默认比例</button> -->
+					</ion-col>
+				</ion-row>
+				<div class="fixTable">
+					<table class="clientTable extraTable">
+						<tr>
+							<th class="">时间</th>
+							<th class="">方式</th>
+							<th class="">金额</th>
+							<th class="">备注</th>
+							<th>操作</th>
+							<th class="endwidth"></th>
+						</tr>
+					</table>
+					<div class="fixHeight">
+						<form #ngformOne="ngForm" class="formBox">
+							<table class="clientTable extraTable">
+								<!-- 新增付款 -->
+								<tr *ngIf="ifAddPayment">
+									<td class="inputline">
+										<ion-item no-lines>
+											<ion-datetime name="payTime" displayFormat="YYYY MMM DD  HH:mm:ss" [(ngModel)]="paymentLists.payment_time"></ion-datetime>
+										</ion-item>
+									</td>
+									<td class="selectline">
+										<ion-item no-lines>
+											<ion-select name="payType" [(ngModel)]="paymentLists.payment_way">
+												<ion-option value="0">现金</ion-option>
+												<ion-option value="1">公产</ion-option>
+												<ion-option value="2">支票</ion-option>
+												<ion-option value="3">微信支付</ion-option>
+											</ion-select>
+										</ion-item>
+									</td>
+									<td class="inputline">
+										<ion-item no-lines>
+											<ion-input type="text" name="payAmount" required placeholder="" clearInput [(ngModel)]="paymentLists.payment_amount"></ion-input>
+										</ion-item>
+									</td>
+									<td class="inputline">
+										<ion-item no-lines>
+											<ion-input type="text" name="payRemark" placeholder="" clearInput [(ngModel)]="paymentLists.remarks"></ion-input>
+										</ion-item>
+									</td>
+									<td>
+										<span tappable (click)="paymentConfirm()">
+											<ion-icon class="bggreen" name="checkmark-circle"></ion-icon>
+										</span>
+										<span tappable (click)="hidePaymentItem()">
+											<ion-icon class="bgred" name="close-circle"></ion-icon>
+										</span>
+									</td>
+								</tr>
+								<!-- 已有收款 -->
+								<tr *ngFor="let item of paymentEditlists; let i = index">
+									<td class="inputline">
+										<ion-item no-lines>
+											<ion-input name="{{'payTime'+i}}" disabled [(ngModel)]="item.time"></ion-input>
+											<!-- <ion-datetime name="{{'payTime'+i}}"  displayFormat="YYYY-MM-DD HH:mm:ss"  [(ngModel)]="AAA" (ngModelChange)="paymentEdit(item)"></ion-datetime> -->
+										</ion-item>
+									</td>
+									<td class="selectline">
+										<ion-item no-lines>
+											<ion-select name="{{'payType'+i}}" [(ngModel)]="item.type" (ngModelChange)="paymentEdit(item)">
+												<ion-option value="0">现金</ion-option>
+												<ion-option value="1">公产</ion-option>
+												<ion-option value="2">支票</ion-option>
+												<ion-option value="3">微信支付</ion-option>
+											</ion-select>
+										</ion-item>
+									</td>
+									<td class="inputline">
+										<ion-item no-lines>
+											<ion-input type="number" name="{{'payAmount'+i}}" [(ngModel)]="item.money" (ngModelChange)="paymentEdit(item)"></ion-input>
+										</ion-item>
+									</td>
+									<td class="inputline">
+										<ion-item no-lines>
+											<ion-input type="text" name="{{'payRemark'+i}}" [(ngModel)]="item.remarks" (ngModelChange)="paymentEdit(item)"></ion-input>
+										</ion-item>
+									</td>
+									<td>
+										<ion-icon name="trash" tappable (click)="delPaymentItem(item,i)"></ion-icon>
+									</td>
+								</tr>
+							</table>
+						</form>
+					</div>
+					<ion-row class="subRow">
+						<ion-col col-6>
+							<!-- <button ion-button class="blckBtn" (click)="formSubmit(ngformOne.value)" style="float: right">
+								确定
+							</button> -->
+						</ion-col>
+						<ion-col col-6>
+							<button ion-button class="blckBtn" (click)="hidePaymentModal()" style="float: left">
+								取消
+							</button>
+						</ion-col>
+					</ion-row>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+	<!-- 执行成本弹窗 -->
+	<div class="calendarModal costModal" *ngIf="costVisible">
+		<div class="modalInner">
+			<span class="hidebtn" tappable (click)="hideCostMoal()">
+				<ion-icon name="close"></ion-icon>
+			</span>
+			<h3 class="modalTitle">
+				执行成本
+			</h3>
+			<div class="modalCon">
+				<ion-row class="titleRow">
+					<ion-col col-6 class="title">
+						<span>{{proCommon.order_place}} </span> | 婚礼日期: {{proCommon.order_date}}
+					</ion-col>
+					<ion-col col-6 class="txtRight">
+						<button class="greyBtn" ion-button (click)="showsetCostMoal()">添加费用</button>
+					</ion-col>
+				</ion-row>
+				<ion-row class="infoRow">
+					<ion-col col-4>
+						<p>
+							<span>新郎(联系方式)：</span>{{proCommon.groom_name}}({{proCommon.groom_phone}})</p>
+						<p>
+							<span>新娘(联系方式)：</span>{{proCommon.bride_name}}({{proCommon.bride_phone}})</p>
+					</ion-col>
+					<!-- <ion-col col-4>
+						<p>
+							<span class="aaa">全色场系：</span>白+金</p>
+						<p>
+							<span>花 材:</span>编花</p>
+					</ion-col> -->
+					<ion-col col-4>
+						<p>
+							<span>签单人：</span>{{proCommon.designer_name}}({{proCommon.designer_telephone}})
+						</p>
+						<p>
+							<span>合同金额：</span>{{proAllData?.order_money}}
+						</p>
+						<!-- <p>
+							<span>执行部门负责人：</span>{{proCommon.designer_name}}
+						</p> -->
+					</ion-col>
+				</ion-row>
+				<div class="middleHeight">
+					<div class="inlineTable">
+						<ul class="no-border">
+							<li class="txtRed">项目</li>
+							<li>费用</li>
+							<li>备注</li>
+						</ul>
+						<ul class="no-border">
+							<li class="txtRed">项目</li>
+							<li>费用</li>
+							<li>备注</li>
+						</ul>
+						<ul class="no-border">
+							<li class="txtRed">项目</li>
+							<li>费用</li>
+							<li>备注</li>
+						</ul>
+						<ul class="conCell" *ngFor="let item of proCostlist;let i =index" style="cursor: pointer" (click)="OpenEditCostModal(item,i)">
+							<li class="bgWhite">{{item.supplier_name}}</li>
+							<li>￥{{item.money}}</li>
+							<li>{{item.remark}}</li>
+						</ul>
+					</div>
+				</div>
+				<table class="clientTable bottomTable">
+					<tr>
+						<th>合同金额</th>
+						<th>实收金额</th>
+						<th>成本合计</th>
+						<th>员工提成</th>
+						<th>利润</th>
+						<th>利润率</th>
+					</tr>
+					<tr>
+						<td>{{proAllData?.order_money}}</td>
+						<td>{{proAllData?.payment_money}}</td>
+						<td>{{proAllData?. supplier_payment_money}}</td>
+						<td>{{proAllData?. order_partner_money}}</td>
+						<td>{{proAllData?. profit}}</td>
+						<td>{{proAllData?. profit_rate}}%</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+
+	<!-- 执行成本添加费用弹窗 -->
+	<div class="calendarModal setoModal setCostModal" *ngIf="setCostVisible">
+		<div class="modalInner">
+			<span class="hidebtn" (click)="hidesetcostModal()">
+				<ion-icon name="close"></ion-icon>
+			</span>
+			<h3 class="modalTitle">
+				添加费用
+			</h3>
+			<div class="formBox">
+				<form #ngform="ngForm" class="formBox">
+					<ion-grid>
+						<ion-row>
+							<ion-col col-10>
+								<ion-item no-lines>
+									<ion-label>项目1</ion-label>
+									<ion-input type="text" name="supplier_name" ngModel>
+									</ion-input>
+								</ion-item>
+								<ion-item no-lines>
+									<ion-label>费用</ion-label>
+									<ion-input type="number" name="money" ngModel>
+									</ion-input>
+								</ion-item>
+								<ion-item no-lines>
+									<ion-label>备注</ion-label>
+									<ion-input type="text" name="remark" ngModel>
+									</ion-input>
+								</ion-item>
+							</ion-col>
+						</ion-row>
+						<ion-row class="subRow">
+							<ion-col col-12>
+								<button ion-button class="blckBtn" [disabled]="!ngform.valid" (click)="formCostSubmit(ngform.value)">
+									确定
+								</button>
+							</ion-col>
+						</ion-row>
+					</ion-grid>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<!-- 执行成本编辑费用弹窗 -->
+	<div class="calendarModal setoModal setCostModal" *ngIf="editCostVisible">
+		<div class="modalInner">
+			<span class="hidebtn" (click)="hidesetcostModal()">
+				<ion-icon name="close"></ion-icon>
+			</span>
+			<h3 class="modalTitle">
+				添加费用
+			</h3>
+			<div class="formBox">
+				<form #ngform="ngForm" class="formBox">
+					<ion-grid>
+						<ion-row>
+							<ion-col col-10>
+								<ion-item no-lines>
+									<ion-label>项目2</ion-label>
+									<ion-input type="text" name="supplier_name" [(ngModel)]="pop_cost_name">
+									</ion-input>
+								</ion-item>
+								<ion-item no-lines>
+									<ion-label>费用</ion-label>
+									<ion-input type="number" name="money" [(ngModel)]="pop_cost_money">
+									</ion-input>
+								</ion-item>
+								<ion-item no-lines>
+									<ion-label>备注</ion-label>
+									<ion-input type="text" name="remark" [(ngModel)]="pop_cost_remark">
+									</ion-input>
+								</ion-item>
+							</ion-col>
+						</ion-row>
+						<ion-row class="subRow">
+							<ion-col col-12>
+								<button ion-button class="blckBtn" [disabled]="!ngform.valid" (click)="formCostEdit(ngform.value)">
+									确定
+								</button>
+								<button ion-button color="danger" [disabled]="!ngform.valid" (click)="formCostDel(ngform.value)">
+									删除
+								</button>
+							</ion-col>
+						</ion-row>
+					</ion-grid>
+				</form>
+			</div>
+		</div>
+	</div>
+</ion-content>

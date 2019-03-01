@@ -1,0 +1,32 @@
+<div class="canBox">
+	<div class="canTable">
+		<div class="daybox dayWeek">
+			<span>S</span>
+		</div>
+		<div class="daybox dayWeek">
+			<span>M</span>
+		</div>
+		<div class="daybox dayWeek">
+			<span>T</span>
+		</div>
+		<div class="daybox dayWeek">
+			<span>W</span>
+		</div>
+		<div class="daybox dayWeek">
+			<span>T</span>
+		</div>
+		<div class="daybox dayWeek">
+			<span>F</span>
+		</div>
+		<div class="daybox dayWeek">
+			<span>S</span>
+		</div>
+		<!-- <td ng-repeat="day in days track by $index" ng-cspanck="change_day(day)" ng-class="{true:'active',false:''}[day==active_day]"
+				ng-model="day">{{day}}</td> -->
+		<div class="daybox" *ngFor="let item of days">
+			<span class={{item.classname}}>
+				{{item.day}}
+			</span>
+		</div>
+	</div>
+</div>

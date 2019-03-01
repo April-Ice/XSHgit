@@ -1,0 +1,1155 @@
+<ion-header>
+	<ion-navbar color="white">
+		<ion-title>产品报价</ion-title>
+		<!--<ion-buttons end>-->
+			<!--<ion-item class="orangeEnd" no-lines>-->
+				<!--<ion-label >-->
+					<!--<ion-icon name="ios-paper-outline"></ion-icon>-->
+					<!--<span class="name">报价单</span>-->
+				<!--</ion-label>-->
+				<!--<ion-select [(ngModel)]="gaming">-->
+					<!--<ion-option value="nes">2018-9-12 小张&小高</ion-option>-->
+					<!--<ion-option value="n64">2018-9-12 小张&小高</ion-option>-->
+					<!--<ion-option value="ps">2018-9-12 小张&小高</ion-option>-->
+					<!--<ion-option value="genesis">2018-9-12 小张&小高</ion-option>-->
+				<!--</ion-select>-->
+			<!--</ion-item>-->
+		<!--</ion-buttons>-->
+		<ion-buttons end *ngIf="showTopName">
+			<button ion-button (click)="gotoPrice()">
+				{{order_name}}:({{op_num}})
+			</button>
+		</ion-buttons>
+	</ion-navbar>
+</ion-header>
+<ion-content>
+	<ion-grid class="nopadding" style="margin-top: 20px">
+		<ion-row>
+			<ion-col col-1 class="menubg">
+				<dfn class="xmb-menu" [preload]="{active:'wedding', orderId:order_id}"></dfn>
+			</ion-col>
+			<ion-col col-3 class="typebg">
+				<ion-list no-lines>
+					<button class="typebtn" [ngClass]="{'active': second == item.id}" no-lines ion-item *ngFor="let item of menulists; let i = index"
+					    (click)="checkSecond(i, item)">
+						<span class="icon">
+							<img src="assets/imgs/product/wedIcon.jpg" />
+						</span>
+						<span>{{item.name}}</span>
+					</button>
+				</ion-list>
+				<!-- 购物车 -->
+				<!-- <div>
+					<div *ngIf="showcart">
+						<button (click)="hideCart()">隐藏购物车</button>
+						<div *ngFor="let item of cartlist">
+							<h2>{{item.title}}</h2>
+							<h2>单价 {{item.price}}</h2>
+							<h2>数量 {{item.amount}}</h2>
+							<h2>备注 {{item.mark}}</h2>
+						</div>
+					</div>
+					<button ion-button (click)="clearCart()">清空购物车</button>
+					<button ion-button (click)="showCart()">购物车
+						<ion-badge color="danger" item-end>3</ion-badge>
+					</button>
+				</div> -->
+			</ion-col>
+			<ion-col col-8 class="nopadding">
+				<!-- 偏好定位 -->
+				<div class="product-box colorBox" *ngIf="second == 1">
+					<div class="bgImg">
+						<img src={{imgSrc}} />
+					</div>
+					<ion-row class="title">
+						<ion-col col-12>
+							<h3>preference chioce</h3>
+						</ion-col>
+						<ion-col col-12>
+							<h2>
+								<span class="decLeft"></span>
+								偏好定位
+								<span class="decRight"></span>
+							</h2>
+						</ion-col>
+					</ion-row>
+					<ion-row>
+						<ion-col col-6 (click)="gotoFrame('色彩定位')" tappable >
+							<div class="roundBox">
+								<h5>color</h5>
+								<p>色彩定位</p>
+								<span class="trigle"></span>
+								<p>color position</p>
+							</div>
+						</ion-col>
+						<ion-col col-6 (click)="gotoFrame('风格定位')" tappable >
+							<div class="roundBox">
+								<h5>style</h5>
+								<p>风格定位</p>
+								<span class="trigle"></span>
+								<p>style position</p>
+							</div>
+						</ion-col>
+						<!--<ion-col col-4 (click)="gotoFrame('婚礼统筹')" tappable>-->
+							<!--<div class="roundBox">-->
+								<!--<h5>wedding</h5>-->
+								<!--<p>婚礼统筹</p>-->
+								<!--<span class="trigle"></span>-->
+								<!--<p>wedding planing</p>-->
+							<!--</div>-->
+						<!--</ion-col>-->
+					</ion-row>
+				</div>
+				<!-- 场布套餐 -->
+				<div class="product-box" *ngIf="second == 2">
+					<ion-row class="toptitle">
+						<ion-col col-6>
+							<h3>
+								<span>{{secondname}} | </span>
+								8个商品
+							</h3>
+						</ion-col>
+						<ion-col col-6 class="txtRight">
+							<button ion-button (click)="gotoFrame('场布DIY')" tappable>场布定制</button>
+							<button ion-button *ngIf="admin&& !showedit && !!isManage" (click)="editProducts()" tappable>编辑</button>
+							<button ion-button *ngIf="admin&& showedit" (click)="addTaocan()" tappable>新增套餐</button>
+							<button ion-button *ngIf="admin&& showedit" (click)="editSucess()" tappable>完成</button>
+						</ion-col>
+					</ion-row>
+					<ion-list no-lines class="itembox">
+						<ion-item *ngFor="let item of productlist" class="goodBox" (click)="gotoDetail('整案详情',item.hole_case_id)" tappable>
+							<ion-thumbnail item-start class="imgbox" >
+								<img src={{item.img}} />
+							</ion-thumbnail>
+							<ion-row>
+								<ion-col col-6 >
+									<h2 class="title">
+										{{item.title}}
+									</h2>
+									<h3 class="price" >￥{{item.price}}</h3>
+								</ion-col>
+								<ion-col col-6>
+									<span class="btns">
+										<button ion-button clear>
+											<ion-icon name="create" *ngIf="showedit" (click)="editItem(item.id)" tappable></ion-icon>
+										</button>
+										<button ion-button clear>
+											<ion-icon name="trash" *ngIf="showedit" (click)="deltaocanItem(item.id)" tappable></ion-icon>
+										</button>
+									</span>
+									<button ion-button class="addOrderBtn" item-end (click)="sceneAddToOrder(item.id,$event)">加入订单</button>
+								</ion-col>
+							</ion-row>
+
+							<p class="detail" >{{item.detail}}</p>
+						</ion-item>
+					</ion-list>
+				</div>
+				<!-- 婚礼亮点 -->
+				<div class="product-box" *ngIf="second == 3">
+					<ion-row class="toptitle">
+						<ion-col col-8 class="ordertype">
+							<button ion-button [ngClass]="{'active': chooseTypeValue == item.id}" (click)="chooseType(item.id)" *ngFor="let item of brightMenu">{{item.name}} </button>
+						</ion-col>
+						<ion-col col-4 class="txtRight">
+							<!-- <button ion-button>编辑分类</button> -->
+							<button ion-button *ngIf="admin&& showedit" (click)="OpenAddBrightPointModal()">新增亮点</button>
+							<button ion-button *ngIf="admin&& !showedit" (click)="editProducts()">编辑</button>
+							<button ion-button *ngIf="admin&& showedit" (click)="editSucess()">完成</button>
+						</ion-col>
+					</ion-row>
+					<ion-list class="itembox">
+						<ion-item *ngFor="let item of brightPointList;let i = index" class="goodBox" (click)="gotoDetail('婚礼亮点',item.id)" tappable>
+							<ion-thumbnail item-start class="imgbox">
+								<img src={{item.poster_url}} />
+							</ion-thumbnail>
+							<ion-row>
+								<ion-col col-6>
+									<h2 class="title">
+										{{item.product_name}}
+									</h2>
+									<h3 class="price">￥{{item.price}}</h3>
+								</ion-col>
+								<ion-col col-6>
+									<span class="btns">
+										<button ion-button clear>
+											<ion-icon name="create" *ngIf="showedit" (click)="OpenEditBrightPointModal(item)" tappable></ion-icon>
+										</button>
+										<button ion-button clear>
+											<ion-icon name="trash" *ngIf="showedit" (click)="DelBrightPoint(item,i)" tappable></ion-icon>
+										</button>
+									</span>
+									<button ion-button class="addOrderBtn" item-end (click)="brightAddToOrder(item,$event)">加入订单</button>
+								</ion-col>
+							</ion-row>
+
+							<p class="detail">{{item.description}}</p>
+						</ion-item>
+					</ion-list>
+				</div>
+				<!-- 服务人员 -->
+				<div class="product-box person-div" *ngIf="second == 4">
+					<ion-row class="toptitle person-toptitle">
+						<ion-col col-10 class="ordertype">
+							<button ion-button [ngClass]="{'active': chooseTypeValue == item.id}" *ngFor="let item of personType" (click)="checkPersonType(item.id)">{{item.name}} </button>
+						</ion-col>
+						<ion-col col-2 class="morebtn txtR">
+							<button ion-button clear (click)="showMoreNav()">
+								更多
+								<ion-icon name="ios-arrow-down" *ngIf="!showMoreBtn"></ion-icon>
+								<ion-icon name="ios-arrow-up" *ngIf="showMoreBtn"></ion-icon>
+							</button>
+						</ion-col>
+					</ion-row>
+					<!-- <ion-row class="toptitle" *ngIf="showMoreBtn">
+						<ion-col col-10 class="ordertype">
+							<button ion-button [ngClass]="{'active': chooseTypeValue == '10'}" (click)="chooseType('10')">仪式前 </button>
+							<button ion-button [ngClass]="{'active': chooseTypeValue == '12'}" (click)="chooseType('11')">仪式中 </button>
+							<button ion-button [ngClass]="{'active': chooseTypeValue == '12'}" (click)="chooseType('12')">仪式后 </button>
+							<button ion-button [ngClass]="{'active': chooseTypeValue == '13'}" (click)="chooseType('13')">花艺升级 </button>
+							<button ion-button [ngClass]="{'active': chooseTypeValue == '14'}" (click)="chooseType('14')">灯光升级 </button>
+						</ion-col>
+					</ion-row> -->
+					<ion-row class="toptitle">
+						<ion-col col-4>
+
+						</ion-col>
+						<ion-col col-8 class="txtRight">
+							<button ion-button (click)="OpenServicePersonTypeEditModal()">编辑分类</button>
+							<button ion-button *ngIf="admin&& !showedit" (click)="editProducts()">编辑</button>
+							<button ion-button *ngIf="admin&& showedit" (click)="AddServicePerson()">新增人员</button>
+							<button ion-button *ngIf="admin&& showedit" (click)="editSucess()">完成</button>
+						</ion-col>
+					</ion-row>
+					<ion-list no-lines class="itembox person-div-item">
+						<ion-item *ngFor="let item of productlist;let i = index" class="goodBox" (click)="gotoDetail('服务人员',item.id)">
+							<ion-thumbnail item-start class="imgbox top_box">
+								<div class="top" *ngIf="item.recommend==1"></div>
+								<img src={{item.img}} />
+							</ion-thumbnail>
+							<ion-row>
+								<ion-col col-6 >
+									<h2 class="title">
+										{{item.title}}
+									</h2>
+									<h3 class="price">￥{{item.price}}</h3>
+								</ion-col>
+								<ion-col col-6>
+									<span class="btns" *ngIf="showedit">
+										<button ion-button clear>
+											<ion-icon tappable class="stick" name="top" *ngIf="showedit&&item.recommend==0" (click)="StickServicePerson(item,i)"></ion-icon>
+											<ion-icon  tappable class="cancel_stick" name="top" *ngIf="showedit&&item.recommend==1" (click)="CancelStickServicePerson(item,i)"></ion-icon>
+										</button>
+										<button ion-button clear>
+											<ion-icon name="create"  (click)="EditServicePerson(item,$event)"></ion-icon>
+										</button>
+										<button ion-button clear>
+											<ion-icon name="trash"  (click)="DelServicePerson(item,i,$event)"></ion-icon>
+										</button>
+									</span>
+									<button ion-button class="addOrderBtn" item-end (click)="staffAddToOrder(item,$event)" *ngIf="!showedit">加入订单</button>
+								</ion-col>
+							</ion-row>
+
+							<p class="detail">{{item.detail}}</p>
+						</ion-item>
+					</ion-list>
+				</div>
+				<!-- 婚纱 -->
+				<div class="product-box" *ngIf="second == 5">
+					<ion-row class="toptitle">
+						<ion-col col-8 class="ordertype">
+						</ion-col>
+						<ion-col col-4 class="txtRight">
+							<button ion-button *ngIf="admin&& showedit" (click)="OpenAddHunshaModal()">新增婚纱</button>
+							<button ion-button *ngIf="admin&& !showedit" (click)="editProducts()">编辑</button>
+							<button ion-button *ngIf="admin&& showedit" (click)="editSucess()">完成</button>
+						</ion-col>
+					</ion-row>
+					<ion-list class="itembox">
+						<ion-item *ngFor="let item of hunshaList;let i = index" class="goodBox">
+							<ion-thumbnail item-start class="imgbox">
+								<img src={{item.ref_pic_url}} />
+							</ion-thumbnail>
+							<ion-row>
+								<ion-col col-6>
+									<h2 class="title">
+										{{item.name}}
+									</h2>
+									<h3 class="price">￥{{item.price}}</h3>
+								</ion-col>
+								<ion-col col-6>
+									<span class="btns">
+										<button ion-button clear>
+											<ion-icon name="create" *ngIf="showedit" (click)="OpenEditHunshaModal(item)"></ion-icon>
+										</button>
+										<button ion-button clear>
+											<ion-icon name="trash" *ngIf="showedit" (click)="DelHunsha(item,i)"></ion-icon>
+										</button>
+									</span>
+									<button ion-button class="addOrderBtn" item-end (click)="OpenProductAddToOrderModal(item,59)">加入订单</button>
+								</ion-col>
+							</ion-row>
+							<p class="detail">{{item.description}}</p>
+						</ion-item>
+					</ion-list>
+				</div>
+				<!-- 婚品 -->
+				<div class="product-box" *ngIf="second == 6">
+					<ion-row class="toptitle">
+						<ion-col col-8 class="ordertype">
+						</ion-col>
+						<ion-col col-4 class="txtRight">
+							<button ion-button *ngIf="admin&& showedit" (click)="OpenAddHunpinModal()">新增婚品</button>
+							<button ion-button *ngIf="admin&& !showedit" (click)="editProducts()">编辑</button>
+							<button ion-button *ngIf="admin&& showedit" (click)="editSucess()">完成</button>
+						</ion-col>
+					</ion-row>
+					<ion-list class="itembox">
+						<ion-item *ngFor="let item of hunpinList;let i = index" class="goodBox">
+							<ion-thumbnail item-start class="imgbox">
+								<img src={{item.ref_pic_url}} />
+							</ion-thumbnail>
+							<ion-row>
+								<ion-col col-6>
+									<h2 class="title">
+										{{item.name}}
+									</h2>
+									<h3 class="price">￥{{item.price}}</h3>
+								</ion-col>
+								<ion-col col-6>
+									<span class="btns">
+										<button ion-button clear>
+											<ion-icon name="create" *ngIf="showedit" (click)="OpenEditHunpinModal(item)"></ion-icon>
+										</button>
+										<button ion-button clear>
+											<ion-icon name="trash" *ngIf="showedit" (click)="DelHunpin(item,i)"></ion-icon>
+										</button>
+									</span>
+									<button ion-button class="addOrderBtn" item-end (click)="OpenProductAddToOrderModal(item,62)">加入订单</button>
+								</ion-col>
+							</ion-row>
+							<p class="detail">{{item.description}}</p>
+						</ion-item>
+					</ion-list>
+				</div>
+				<!-- 布置 -->
+				<div class="product-box" *ngIf="second == 7">
+					<ion-row class="toptitle">
+						<ion-col col-8 class="ordertype">
+						</ion-col>
+						<ion-col col-4 class="txtRight">
+							<button ion-button *ngIf="admin&& showedit" (click)="OpenAddBuzhiModal()">新增布置</button>
+							<button ion-button *ngIf="admin&& !showedit" (click)="editProducts()">编辑</button>
+							<button ion-button *ngIf="admin&& showedit" (click)="editSucess()">完成</button>
+						</ion-col>
+					</ion-row>
+					<ion-list class="itembox">
+						<ion-item *ngFor="let item of buzhiList;let i = index" class="goodBox">
+							<ion-thumbnail item-start class="imgbox">
+								<img src={{item.ref_pic_url}} />
+							</ion-thumbnail>
+							<ion-row>
+								<ion-col col-6>
+									<h2 class="title">
+										{{item.name}}
+									</h2>
+									<h3 class="price">￥{{item.price}}</h3>
+								</ion-col>
+								<ion-col col-6>
+									<span class="btns">
+										<button ion-button clear>
+											<ion-icon name="create" *ngIf="showedit" (click)="OpenEditBuzhiModal(item)"></ion-icon>
+										</button>
+										<button ion-button clear>
+											<ion-icon name="trash" *ngIf="showedit" (click)="DelBuzhi(item,i)"></ion-icon>
+										</button>
+									</span>
+									<button ion-button class="addOrderBtn" item-end (click)="OpenProductAddToOrderModal(item,null)">加入订单</button>
+								</ion-col>
+							</ion-row>
+							<p class="detail">{{item.description}}</p>
+						</ion-item>
+					</ion-list>
+				</div>
+			</ion-col>
+		</ion-row>
+	</ion-grid>
+
+	<!-- 新增产品 -->
+	<div class="calendarModal newAdd" *ngIf="modalVisible">
+		<div class="modalInner">
+			<span class="hidebtn" tappable (click)="hideModal()">
+				<ion-icon name="close"></ion-icon>
+			</span>
+			<h3 class="modalTitle">
+				新增产品
+			</h3>
+			<div class="formBox">
+				<form #ngform="ngForm">
+					<ion-grid>
+						<ion-row>
+							<ion-col col-6>
+								<ion-item no-lines>
+									<ion-label>
+										<span class="red">*</span> 产品名称</ion-label>
+									<ion-input type="text" name="name" placeholder={{placeForm.name}} clearInput [(ngModel)]="placeForm.name">
+									</ion-input>
+								</ion-item>
+							</ion-col>
+						</ion-row>
+						<ion-row>
+							<ion-col col-6>
+								<ion-item no-lines>
+									<ion-label>价格</ion-label>
+									<ion-input type="number" name="price" placeholder={{placeForm.price}} clearInput [(ngModel)]="placeForm.price">
+									</ion-input>
+								</ion-item>
+							</ion-col>
+						</ion-row>
+						<ion-row>
+							<ion-col col-12>
+								<ion-item no-lines>
+									<ion-label>产品描述 </ion-label>
+									<ion-input type="text" name="detail" placeholder={{placeForm.detail}} clearInput [(ngModel)]="placeForm.detail">
+									</ion-input>
+								</ion-item>
+							</ion-col>
+						</ion-row>
+						<ion-row class="subRow">
+							<ion-col col-6 class="txtR">
+								<button ion-button class="blckBtn" [disabled]="!ngform.valid" (click)="formSubmit(ngform.value)">
+									确定
+								</button>
+							</ion-col>
+							<ion-col col-6>
+								<button ion-button color="light" navPop>返回</button>
+							</ion-col>
+						</ion-row>
+					</ion-grid>
+				</form>
+			</div>
+		</div>
+	</div>
+	<!-- 场布套餐加入订单 -->
+	<div class="orderModal" *ngIf="sceneAddToOrderModalVisible">
+		<div class="modalInner">
+			<span tappable class="hidebtn" (click)="cancelSceneAddToOrder()">
+				<ion-icon name="close"></ion-icon>
+			</span>
+			<h3 class="modalTitle">
+				加入订单
+			</h3>
+			<div class="formBox">
+				<form #ngform="ngForm">
+					<ion-row class="mainCon">
+						<ion-col col-8>
+							<ion-item no-lines class="lineSelect">
+								<ion-label>
+									<span class="red">*</span> 订单
+								</ion-label>
+								<ion-select name="order_id" [required]="!ifFixId" [disabled]="ifFixId" [(ngModel)]="order_id">
+									<span *ngFor="let item of doingOrderList">
+										<ion-option [value]="item.id">
+											{{item.name}}
+										</ion-option>
+									</span>
+								</ion-select>
+							</ion-item>
+						</ion-col>
+						<ion-col col-4>
+							<button ion-button class="blckBtn" (click)="sceneAddToOrderConfirm(ngform.value)">
+								确定
+							</button>
+						</ion-col>
+					</ion-row>
+				</form>
+			</div>
+		</div>
+	</div>
+	<!-- 新增/编辑婚礼亮点 -->
+	<div class="calendarModal newAdd" *ngIf="editBrightPointModal">
+		<div class="modalInner">
+			<span class="hidebtn" tappable (click)="CloseEditBrightPointModal()">
+				<ion-icon name="close"></ion-icon>
+			</span>
+			<h3 class="modalTitle">{{editBrightPointId==0?'新增婚礼亮点':'编辑婚礼亮点'}}</h3>
+			<div class="formBox">
+				<form #ngform="ngForm">
+					<ion-grid>
+						<dfn class="xmb-misc-uploader" [imgSrc]="editBrightPointImg" (onloaded)="UploadBrightPointImg($event)"></dfn>
+						<ion-row>
+							<ion-col col-12>
+								<ion-item no-lines>
+									<ion-label>
+										<span class="red">*</span> 名称
+									</ion-label>
+									<ion-input type="text" name="name" placeholder="请输入名称" clearInput required [(ngModel)]="editBrightPointName">
+									</ion-input>
+								</ion-item>
+							</ion-col>
+						</ion-row>
+						<ion-row>
+							<ion-col col-6>
+								<ion-item no-lines class="lineSelect">
+									<ion-label>
+										<span class="red">*</span> 区域
+									</ion-label>
+									<ion-select name="area" required [(ngModel)]="editBrightPointArea" (ionChange)="ChangeBrightPointArea()">
+										<span *ngFor="let item of editBrightPointAreaList">
+											<ion-option [value]="item.id">
+												{{item.name}}
+											</ion-option>
+										</span>
+									</ion-select>
+								</ion-item>
+							</ion-col>
+							<ion-col col-6>
+								<ion-item no-lines class="lineSelect">
+									<ion-label>
+										<span class="red">*</span> 子区域
+									</ion-label>
+									<ion-select name="subarea" required [(ngModel)]="editBrightPointSubarea">
+										<span *ngFor="let item of editBrightPointSubareaList">
+											<ion-option [value]="item.id">
+												{{item.name}}
+											</ion-option>
+										</span>
+									</ion-select>
+								</ion-item>
+							</ion-col>
+						</ion-row>
+						<ion-row>
+							<ion-col col-6>
+								<ion-item no-lines class="lineSelect">
+									<ion-label>
+										<span class="red">*</span> 分类
+									</ion-label>
+									<ion-select name="type" required [(ngModel)]="editBrightPointType">
+										<span *ngFor="let item of editBrightPointTypeList">
+											<ion-option [value]="item.id">
+												{{item.name}}
+											</ion-option>
+										</span>
+									</ion-select>
+								</ion-item>
+							</ion-col>
+							<ion-col col-6>
+								<ion-item no-lines>
+									<ion-label>
+										<span class="red">*</span>单位
+									</ion-label>
+									<ion-input type="text" name="unit" placeholder="请输入单位" clearInput required [(ngModel)]="editBrightPointUnit">
+									</ion-input>
+								</ion-item>
+							</ion-col>
+						</ion-row>
+						<ion-row>
+							<ion-col col-6>
+								<ion-item no-lines>
+									<ion-label>
+										<span class="red">*</span>报价
+									</ion-label>
+									<ion-input type="number" name="price" placeholder="请输入报价" clearInput required [(ngModel)]="editBrightPointPrice">
+									</ion-input>
+								</ion-item>
+							</ion-col>
+							<ion-col col-6>
+								<ion-item no-lines>
+									<ion-label>
+										<span class="red">*</span>底价
+									</ion-label>
+									<ion-input type="number" name="cost" placeholder="请输入底价" clearInput required [(ngModel)]="editBrightPointCost">
+									</ion-input>
+								</ion-item>
+							</ion-col>
+						</ion-row>
+						<ion-row>
+							<ion-col col-12>
+								<ion-item no-lines>
+									<ion-label>
+										<span class="red">*</span>描述
+									</ion-label>
+									<ion-input type="text" name="description" placeholder="请输入描述" clearInput required [(ngModel)]="editBrightPointDescription">
+									</ion-input>
+								</ion-item>
+							</ion-col>
+						</ion-row>
+						<ion-row class="subRow">
+							<ion-col col-6 class="txtR">
+								<button ion-button class="blckBtn" [disabled]="!ngform.valid" (click)="AddOrEditBrightPointConfirm(ngform.value)">
+									确定
+								</button>
+							</ion-col>
+							<ion-col col-6>
+								<button ion-button color="light" navPop (click)="CloseEditBrightPointModal()">返回</button>
+							</ion-col>
+						</ion-row>
+					</ion-grid>
+				</form>
+			</div>
+		</div>
+	</div>
+	<!-- 婚礼亮点加入订单 -->
+	<div class="orderModal" *ngIf="brightAddToOrderModalVisible">
+		<div class="modalInner">
+			<span class="hidebtn" tappable (click)="cancelBrightAddToOrder()">
+				<ion-icon name="close"></ion-icon>
+			</span>
+			<h3 class="modalTitle">
+				加入订单
+			</h3>
+			<div class="formBox">
+				<form #ngform="ngForm">
+					<ion-grid class="mainCon">
+						<ion-row>
+							<ion-col col-12>
+								<ion-item no-lines class="lineSelect">
+									<ion-label>
+										<span class="red">*</span> 选择订单
+									</ion-label>
+									<ion-select name="order_id" required ngModel>
+										<span *ngFor="let item of orderList">
+											<ion-option [value]="item.id">
+												{{item.name}}
+											</ion-option>
+										</span>
+									</ion-select>
+								</ion-item>
+							</ion-col>
+							<ion-col col-12>
+								<ion-item no-lines class="lineSelect">
+									<ion-label>
+										<span class="red">*</span> 实际价格
+									</ion-label>
+									<ion-input type="number" name="actual_price" clearInput required [(ngModel)]="curBright.price">
+									</ion-input>
+								</ion-item>
+							</ion-col>
+							<ion-col col-12>
+								<ion-item no-lines class="lineSelect">
+									<ion-label>
+										<span class="red">*</span> 数量
+									</ion-label>
+									<ion-input type="number" name="amount" value="1" clearInput required [(ngModel)]="curBright.count">
+									</ion-input>
+								</ion-item>
+							</ion-col>
+							<ion-col col-12>
+								<ion-item no-lines class="lineSelect">
+									<ion-label>
+										<span class="red">*</span> 备注
+									</ion-label>
+									<ion-input type="text" name="remark" clearInput required ngModel>
+									</ion-input>
+								</ion-item>
+							</ion-col>
+							<ion-col col-12 class="txtC subrow">
+								<button ion-button class="blckBtn" [disabled]="!ngform.valid" (click)="brightAddToOrderConfirm(ngform.value)">
+									确定
+								</button>
+							</ion-col>
+						</ion-row>
+					</ion-grid>
+				</form>
+			</div>
+		</div>
+	</div>
+	<!-- 新增/编辑婚纱 -->
+	<div class="calendarModal newAdd" *ngIf="editHunshaModal">
+		<div class="modalInner">
+			<span class="hidebtn" (click)="CloseEditHunshaModal()">
+				<ion-icon name="close"></ion-icon>
+			</span>
+			<h3 class="modalTitle">{{editHunshaId==0?'新增婚纱':'编辑婚纱'}}</h3>
+			<div class="formBox">
+				<form #ngform="ngForm">
+					<ion-grid>
+						<dfn class="xmb-misc-uploader" [imgSrc]="editHunshaImg" (onloaded)="UploadHunshaImg($event)"></dfn>
+						<ion-row>
+							<ion-col col-6>
+								<ion-item no-lines>
+									<ion-label>
+										<span class="red">*</span> 名称
+									</ion-label>
+									<ion-input type="text" name="name" placeholder="请输入名称" clearInput required [(ngModel)]="editHunshaName">
+									</ion-input>
+								</ion-item>
+							</ion-col>
+							<ion-col col-6>
+								<ion-item no-lines>
+									<ion-label>
+										<span class="red">*</span>单价
+									</ion-label>
+									<ion-input type="number" name="price" placeholder="请输入单价" clearInput required [(ngModel)]="editHunshaPrice">
+									</ion-input>
+								</ion-item>
+							</ion-col>
+						</ion-row>
+						<ion-row>
+							<ion-col col-6>
+								<ion-item no-lines>
+									<ion-label>
+										<span class="red">*</span>单位
+									</ion-label>
+									<ion-input type="text" name="unit" placeholder="请输入单位" clearInput required [(ngModel)]="editHunshaUnit">
+									</ion-input>
+								</ion-item>
+							</ion-col>
+							<ion-col col-6>
+								<ion-item no-lines>
+									<ion-label>
+										<span class="red">*</span>单位成本
+									</ion-label>
+									<ion-input type="text" name="unitprice" placeholder="请输入单位成本" clearInput required [(ngModel)]="editHunshaCost">
+									</ion-input>
+								</ion-item>
+							</ion-col>
+						</ion-row>
+						<ion-row>
+							<ion-col col-6>
+								<ion-item no-lines>
+									<ion-label>
+										<span class="red">*</span>库存
+									</ion-label>
+									<ion-input type="number" name="cost" placeholder="请输入库存" clearInput required [(ngModel)]="editHunshaInventory">
+									</ion-input>
+								</ion-item>
+							</ion-col>
+							<ion-col col-6 *ngIf="editHunshaId == 0">
+								<ion-item no-lines>
+									<ion-label>
+										<span class="red">*</span>数量
+									</ion-label>
+									<ion-input type="number" name="count" placeholder="请输入数量" clearInput required [(ngModel)]="editHunshaAmount">
+									</ion-input>
+								</ion-item>
+							</ion-col>
+						</ion-row>
+						<ion-row>
+							<ion-col col-12>
+								<ion-item no-lines>
+									<ion-label>
+										<span class="red">*</span>描述
+									</ion-label>
+									<ion-input type="text" name="description" placeholder="请输入描述" clearInput required [(ngModel)]="editHunshaDescription">
+									</ion-input>
+								</ion-item>
+							</ion-col>
+						</ion-row>
+						<ion-row *ngIf="editHunshaId == 0">
+							<ion-col col-12>
+								<ion-item no-lines>
+									<ion-label>
+										<span class="red">*</span>备注
+									</ion-label>
+									<ion-input type="text" name="remark" placeholder="请输入备注" clearInput required [(ngModel)]="editHunshaRemark">
+									</ion-input>
+								</ion-item>
+							</ion-col>
+						</ion-row>
+						<ion-row class="subRow">
+							<ion-col col-6 class="txtR">
+								<button ion-button class="blckBtn" [disabled]="!ngform.valid" (click)="AddOrEditHunshaConfirm(ngform.value)">
+									确定
+								</button>
+							</ion-col>
+							<ion-col col-6>
+								<button ion-button color="light" navPop (click)="CloseEditHunshaModal()">返回</button>
+							</ion-col>
+						</ion-row>
+					</ion-grid>
+				</form>
+			</div>
+		</div>
+	</div>
+	<!-- 新增/编辑婚品 -->
+	<div class="calendarModal newAdd" *ngIf="editHunpinModal">
+		<div class="modalInner">
+			<span class="hidebtn" (click)="CloseEditHunpinModal()">
+				<ion-icon name="close"></ion-icon>
+			</span>
+			<h3 class="modalTitle">{{editHunpinId==0?'新增婚品':'编辑婚品'}}</h3>
+			<div class="formBox">
+				<form #ngform="ngForm">
+					<ion-grid>
+						<dfn class="xmb-misc-uploader" [imgSrc]="editHunpinImg" (onloaded)="UploadHunpinImg($event)"></dfn>
+						<ion-row>
+							<ion-col col-6>
+								<ion-item no-lines>
+									<ion-label>
+										<span class="red">*</span> 名称
+									</ion-label>
+									<ion-input type="text" name="name" placeholder="请输入名称" clearInput required [(ngModel)]="editHunpinName">
+									</ion-input>
+								</ion-item>
+							</ion-col>
+							<ion-col col-6>
+								<ion-item no-lines>
+									<ion-label>
+										<span class="red">*</span>单价
+									</ion-label>
+									<ion-input type="number" name="price" placeholder="请输入单价" clearInput required [(ngModel)]="editHunpinPrice">
+									</ion-input>
+								</ion-item>
+							</ion-col>
+						</ion-row>
+						<ion-row>
+							<ion-col col-6>
+								<ion-item no-lines>
+									<ion-label>
+										<span class="red">*</span>单位
+									</ion-label>
+									<ion-input type="text" name="unit" placeholder="请输入单位" clearInput required [(ngModel)]="editHunpinUnit">
+									</ion-input>
+								</ion-item>
+							</ion-col>
+							<ion-col col-6>
+								<ion-item no-lines>
+									<ion-label>
+										<span class="red">*</span>单位成本
+									</ion-label>
+									<ion-input type="text" name="unitprice" placeholder="请输入单位成本" clearInput required [(ngModel)]="editHunpinCost">
+									</ion-input>
+								</ion-item>
+							</ion-col>
+						</ion-row>
+						<ion-row>
+							<ion-col col-6>
+								<ion-item no-lines>
+									<ion-label>
+										<span class="red">*</span>库存
+									</ion-label>
+									<ion-input type="number" name="cost" placeholder="请输入库存" clearInput required [(ngModel)]="editHunpinInventory">
+									</ion-input>
+								</ion-item>
+							</ion-col>
+							<ion-col col-6 *ngIf="editHunpinId == 0">
+								<ion-item no-lines>
+									<ion-label>
+										<span class="red">*</span>数量
+									</ion-label>
+									<ion-input type="number" name="count" placeholder="请输入数量" clearInput required [(ngModel)]="editHunpinAmount">
+									</ion-input>
+								</ion-item>
+							</ion-col>
+						</ion-row>
+						<ion-row>
+							<ion-col col-12>
+								<ion-item no-lines>
+									<ion-label>
+										<span class="red">*</span>描述
+									</ion-label>
+									<ion-input type="text" name="description" placeholder="请输入描述" clearInput required [(ngModel)]="editHunpinDescription">
+									</ion-input>
+								</ion-item>
+							</ion-col>
+						</ion-row>
+						<ion-row *ngIf="editHunpinId == 0">
+							<ion-col col-12>
+								<ion-item no-lines>
+									<ion-label>
+										<span class="red">*</span>备注
+									</ion-label>
+									<ion-input type="text" name="remark" placeholder="请输入备注" clearInput required [(ngModel)]="editHunpinRemark">
+									</ion-input>
+								</ion-item>
+							</ion-col>
+						</ion-row>
+						<ion-row class="subRow">
+							<ion-col col-6 class="txtR">
+								<button ion-button class="blckBtn" [disabled]="!ngform.valid" (click)="AddOrEditHunpinConfirm(ngform.value)">
+									确定
+								</button>
+							</ion-col>
+							<ion-col col-6>
+								<button ion-button color="light" navPop (click)="CloseEditHunpinModal()">返回</button>
+							</ion-col>
+						</ion-row>
+					</ion-grid>
+				</form>
+			</div>
+		</div>
+	</div>
+	<!-- 新增/编辑布置 -->
+	<div class="calendarModal newAdd" *ngIf="editBuzhiModal">
+		<div class="modalInner">
+			<span class="hidebtn" (click)="CloseEditBuzhiModal()">
+				<ion-icon name="close"></ion-icon>
+			</span>
+			<h3 class="modalTitle">{{editBuzhiId==0?'新增布置':'编辑布置'}}</h3>
+			<div class="formBox">
+				<form #ngform="ngForm">
+					<ion-grid>
+						<dfn class="xmb-misc-uploader" [imgSrc]="editBuzhiImg" (onloaded)="UploadBuzhiImg($event)"></dfn>
+						<ion-row>
+							<ion-col col-6>
+								<ion-item no-lines>
+									<ion-label>
+										<span class="red">*</span> 名称
+									</ion-label>
+									<ion-input type="text" name="name" placeholder="请输入名称" clearInput required [(ngModel)]="editBuzhiName">
+									</ion-input>
+								</ion-item>
+							</ion-col>
+							<ion-col col-6>
+								<ion-item no-lines>
+									<ion-label>
+										<span class="red">*</span>单价
+									</ion-label>
+									<ion-input type="number" name="price" placeholder="请输入单价" clearInput required [(ngModel)]="editBuzhiPrice">
+									</ion-input>
+								</ion-item>
+							</ion-col>
+						</ion-row>
+						<ion-row>
+							<ion-col col-6>
+								<ion-item no-lines>
+									<ion-label>
+										<span class="red">*</span>单位
+									</ion-label>
+									<ion-input type="text" name="unit" placeholder="请输入单位" clearInput required [(ngModel)]="editBuzhiUnit">
+									</ion-input>
+								</ion-item>
+							</ion-col>
+							<ion-col col-6>
+								<ion-item no-lines>
+									<ion-label>
+										<span class="red">*</span>单位成本
+									</ion-label>
+									<ion-input type="text" name="unitprice" placeholder="请输入单位成本" clearInput required [(ngModel)]="editBuzhiCost">
+									</ion-input>
+								</ion-item>
+							</ion-col>
+						</ion-row>
+						<ion-row>
+							<ion-col col-6>
+								<ion-item no-lines>
+									<ion-label>
+										<span class="red">*</span>库存
+									</ion-label>
+									<ion-input type="number" name="cost" placeholder="请输入库存" clearInput required [(ngModel)]="editBuzhiInventory">
+									</ion-input>
+								</ion-item>
+							</ion-col>
+							<ion-col col-6 *ngIf="editBuzhiId == 0">
+								<ion-item no-lines>
+									<ion-label>
+										<span class="red">*</span>数量
+									</ion-label>
+									<ion-input type="number" name="count" placeholder="请输入数量" clearInput required [(ngModel)]="editBuzhiAmount">
+									</ion-input>
+								</ion-item>
+							</ion-col>
+						</ion-row>
+						<ion-row>
+							<ion-col col-12>
+								<ion-item no-lines>
+									<ion-label>
+										<span class="red">*</span>描述
+									</ion-label>
+									<ion-input type="text" name="description" placeholder="请输入描述" clearInput required [(ngModel)]="editBuzhiDescription">
+									</ion-input>
+								</ion-item>
+							</ion-col>
+						</ion-row>
+						<ion-row *ngIf="editBuzhiId == 0">
+							<ion-col col-12>
+								<ion-item no-lines>
+									<ion-label>
+										<span class="red">*</span>备注
+									</ion-label>
+									<ion-input type="text" name="remark" placeholder="请输入备注" clearInput required [(ngModel)]="editBuzhiRemark">
+									</ion-input>
+								</ion-item>
+							</ion-col>
+						</ion-row>
+						<ion-row class="subRow">
+							<ion-col col-6 class="txtR">
+								<button ion-button class="blckBtn" [disabled]="!ngform.valid" (click)="AddOrEditBuzhiConfirm(ngform.value)">
+									确定
+								</button>
+							</ion-col>
+							<ion-col col-6>
+								<button ion-button color="light" navPop (click)="CloseEditBuzhiModal()">返回</button>
+							</ion-col>
+						</ion-row>
+					</ion-grid>
+				</form>
+			</div>
+		</div>
+	</div>
+	<!-- 婚纱/婚品/布置 加入订单 -->
+	<div class="orderModal" *ngIf="productAddToOrderModalVisible">
+		<div class="modalInner">
+			<span class="hidebtn" tappable (click)="CloseProductAddToOrderModal()">
+				<ion-icon name="close"></ion-icon>
+			</span>
+			<h3 class="modalTitle">
+				加入订单
+			</h3>
+			<div class="formBox">
+				<form #ngform="ngForm">
+					<ion-grid class="mainCon">
+						<ion-row>
+							<ion-col col-12>
+								<ion-item no-lines class="lineSelect">
+									<ion-label>
+										<span class="red">*</span> 选择订单
+									</ion-label>
+									<ion-select name="order_id" required [(ngModel)]="curProduct.orderId">
+										<span *ngFor="let item of orderList">
+											<ion-option [value]="item.id">
+												{{item.name}}
+											</ion-option>
+										</span>
+									</ion-select>
+								</ion-item>
+							</ion-col>
+							<ion-col col-12>
+								<ion-item no-lines class="lineSelect">
+									<ion-label>
+										<span class="red">*</span> 实际价格
+									</ion-label>
+									<ion-input type="number" name="actual_price" clearInput required [(ngModel)]="curProduct.buyPrice">
+									</ion-input>
+								</ion-item>
+							</ion-col>
+							<ion-col col-12>
+								<ion-item no-lines class="lineSelect">
+									<ion-label>
+										<span class="red">*</span> 数量
+									</ion-label>
+									<ion-input type="number" name="amount" value="1" clearInput required [(ngModel)]="curProduct.buyCount">
+									</ion-input>
+								</ion-item>
+							</ion-col>
+							<ion-col col-12>
+								<ion-item no-lines class="lineSelect">
+									<ion-label>
+										<span class="red">*</span> 备注
+									</ion-label>
+									<ion-input type="text" name="remark" clearInput required [(ngModel)]="curProduct.buyRemark">
+									</ion-input>
+								</ion-item>
+							</ion-col>
+							<ion-col col-12 class="txtC subrow">
+								<button ion-button class="blckBtn" [disabled]="!ngform.valid" (click)="ProductAddToOrderConfirm(ngform.value)">
+									确定
+								</button>
+							</ion-col>
+						</ion-row>
+					</ion-grid>
+				</form>
+			</div>
+		</div>
+	</div>
+	<!-- 新增套餐 -->
+	<div class="orderModal" *ngIf="modalAddVisible">
+		<div class="modalInner">
+			<span tappable class="hidebtn" (click)="hideAddModal()">
+				<ion-icon name="close"></ion-icon>
+			</span>
+			<h3 class="modalTitle">新增套餐</h3>
+			<div class="formBox">
+				<form #ngform="ngForm">
+					<div class="mainCon">
+						<ion-item no-lines padding>
+							<ion-label>
+								套餐来源
+							</ion-label>
+							<ion-select name="from" required (ngModelChange)="ifshowName()" required [(ngModel)]="selectValue">
+								<span *ngFor="let item of taocanlist">
+									<ion-option [value]="item.id">
+										{{item.title}}
+									</ion-option>
+								</span>
+							</ion-select>
+						</ion-item>
+						<ion-item no-lines padding *ngIf="showTaocanName">
+							<ion-label>
+								套餐名称
+							</ion-label>
+							<ion-input type="text" name="name" required placeholder={{placeForm.name}} clearInput [(ngModel)]="placeForm.name">
+							</ion-input>
+						</ion-item>
+						<div class="txtC subrow">
+							<button ion-button class="blckBtn" (click)="formAddSubmit(ngform.value)">
+								确定
+							</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<!-- 编辑服务人员分类 -->
+	<div class="calendarModal orderModal" *ngIf="servicePersonTypeEditModal">
+		<div class="modalInner">
+			<span class="hidebtn" tappable (click)="CloseServicePersonTypeEditModal()">
+				<ion-icon name="close"></ion-icon>
+			</span>
+			<h3 class="modalTitle">编辑分类</h3>
+			<div class="formBox">
+				<ion-col col-10 class="ordertype">
+					<button ion-button [ngClass]="{'active': (item.hid==false)}" *ngFor="let item of allServicePersonTypeList" (click)="ChangeServicePersonTypeShow(item)">{{item.name}} </button>
+				</ion-col>
+				<div class="txtC subrow">
+					<button ion-button class="blckBtn" (click)="ServicePersonTypeEditConfirm()">
+						确定
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 服务人员加入订单 -->
+	<div class="orderModal" *ngIf="staffAddToOrderModalVisible">
+		<div class="modalInner">
+			<span class="hidebtn" tappable (click)="cancelStaffAddToOrder()">
+				<ion-icon name="close"></ion-icon>
+			</span>
+			<h3 class="modalTitle">
+				加入订单
+			</h3>
+			<div class="formBox">
+				<form #ngform="ngForm">
+					<ion-row class="mainCon">
+						<ion-col col-12>
+							<ion-item no-lines class="lineSelect">
+								<ion-label>
+									<span class="red">*</span> 订单
+								</ion-label>
+								<ion-select name="order_id" required ngModel>
+									<span *ngFor="let item of orderList">
+										<ion-option [value]="item.id">
+											{{item.name}}
+										</ion-option>
+									</span>
+								</ion-select>
+							</ion-item>
+						</ion-col>
+						<ion-col col-12>
+							<ion-item no-lines class="lineSelect">
+								<ion-label>
+									<span class="red">*</span> 报价
+								</ion-label>
+								<ion-select name="price_id" required ngModel>
+									<span *ngFor="let item of servicePersonQuoteList">
+										<ion-option [value]="item.id">
+											{{item.product_name}} ￥{{item.price}}
+										</ion-option>
+									</span>
+								</ion-select>
+							</ion-item>
+						</ion-col>
+						<ion-col col-12 class="txtC subrow">
+							<button ion-button class="blckBtn" [disabled]="!ngform.valid" (click)="staffAddToOrderConfirm(ngform.value)">
+								确定
+							</button>
+						</ion-col>
+					</ion-row>
+				</form>
+			</div>
+		</div>
+	</div>
+</ion-content>

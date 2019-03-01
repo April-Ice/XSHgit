@@ -1,0 +1,56 @@
+<ion-header>
+	<ion-navbar color="white">
+		<ion-title>客户列表</ion-title>
+	</ion-navbar>
+</ion-header>
+
+
+<ion-content>
+	<ion-grid class="nopadding">
+		<ion-row>
+			<ion-col col-2 class="typebg">
+				<dfn class="xmb-chartmenu" [preload]="{active:'clients'}"></dfn>
+			</ion-col>
+			<ion-col col-10 class="chart-box">
+				<!-- 客户列表 -->
+				<div class="clientBg">
+					<ion-list>
+						<ion-row class="chartTop">
+							<ion-col col-9>
+								<h4>客户总数：1850 </h4>
+								<span>|</span> 黑空江太阳岛空中花园
+							</ion-col>
+							<ion-col col-3>
+								<ion-item no-lines>
+									<ion-select [(ngModel)]="client">
+										<ion-option value="0">全部客户</ion-option>
+										<ion-option value="1">客户小鱼</ion-option>
+										<ion-option value="2">客户小明</ion-option>
+									</ion-select>
+								</ion-item>
+							</ion-col>
+						</ion-row>
+						<div class="tableHeight">
+							<table class="clientTable">
+								<tr>
+									<th>客户信息</th>
+									<th>销售总额</th>
+									<th>订单总数</th>
+								</tr>
+								<tr *ngFor="let item of clientlists">
+									<td class="txtLeft">
+										<h3>{{item.name}}</h3>
+										<p>李经理：1829390445</p>
+									</td>
+									<td class="txtRed">￥{{item.price}}</td>
+									<td>{{item.orders}}</td>
+								</tr>
+							</table>
+						</div>
+					</ion-list>
+				</div>
+			</ion-col>
+		</ion-row>
+	</ion-grid>
+
+</ion-content>

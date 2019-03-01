@@ -1,0 +1,318 @@
+<ion-header>
+	<ion-navbar color="white">
+		<ion-title>目标设定</ion-title>
+	</ion-navbar>
+</ion-header>
+<ion-content>
+	<ion-grid class="nopadding">
+		<ion-row>
+			<ion-col col-2 class="typebg">
+				<dfn class="xmb-chartmenu" [preload]="{active:'goals'}"></dfn>
+			</ion-col>
+			<ion-col col-10 class="chart-box">
+				<!-- 目标设定 -->
+				<div class="greyBg">
+					<ion-row class="staffCharts">
+						<ion-col col-4 class="goals">
+							年度销售目标【{{target?.total}}】
+						</ion-col>
+						<ion-col col-4 class="center">
+							<button ion-button (click)="getPreYear()">
+								<ion-icon name="arrow-back"></ion-icon>
+							</button>
+							<span>{{curYear}}年</span>
+							<button ion-button (click)="getNextYear()">
+								<ion-icon name="arrow-forward"></ion-icon>
+							</button>
+							<!-- <ion-datetime displayFormat="YYYY" [(ngModel)]="chartYear"></ion-datetime> -->
+						</ion-col>
+						<ion-col col-4 class="right">
+							<button ion-button (click)="editGoals()">编辑目标</button>
+						</ion-col>
+					</ion-row>
+
+					<div class="tableBox" [class.extra-tableBox]="ifHotel">
+						<table class="clientTable">
+							<tr>
+								<th>序号</th>
+								<th>姓名</th>
+								<th>销售目标</th>
+								<th>目标分解率</th>
+								<th>
+									<span *ngIf="isCompanyTypeOne">成长等级</span>
+								</th>
+
+							</tr>
+							<tr *ngFor="let item of staffTargetList; let i = index">
+								<td>{{i+1}}</td>
+								<td>{{item.staff_name}}</td>
+								<td>￥{{item.target}} 万元</td>
+								<td>{{item.target_rate}}%</td>
+								<td>
+									<div class="flexRow" *ngIf="isCompanyTypeOne">
+										<span class="grade bgRed"></span> {{item.levelName}}
+										<ion-icon name="settings"></ion-icon>
+									</div>
+								</td>
+							</tr>
+						</table>
+					</div>
+
+					<!--策划师晋升规则 begin-->
+					<ion-item no-lines *ngIf="!ifHotel">
+						<h2 class="goals2">策划师晋升规则</h2>
+					</ion-item>
+					<div class="ruleCon" *ngIf="!ifHotel">
+						<div class="ruleRow">
+							<div class="ruleCell" *ngFor="let item of staffLevalList; let index = index">
+								<div>
+									<span [ngSwitch]="index">
+										<img *ngSwitchCase="0" src={{imgSrc[0]}} />
+										<img *ngSwitchCase="1" src={{imgSrc[1]}} />
+										<img *ngSwitchCase="2" src={{imgSrc[2]}} />
+										<img *ngSwitchCase="3" src={{imgSrc[3]}} />
+										<img *ngSwitchCase="4" src={{imgSrc[4]}} />
+									</span>
+									<p>
+										<span class="nameLine">{{item.name}}</span>
+									</p>
+								</div>
+								<div class="large">
+									<span>{{item.commission}}% </span>{{item.salary}}底薪
+								</div>
+								<p>1.升级规则：连续{{item.upper}}个月完成目标</p>
+								<p>2.降级规则：连续{{item.lower}}个月未完成目标</p>
+								<h6 (click)="setStaffRule(index)">设置…</h6>
+							</div>
+						</div>
+					</div>
+					<!--策划师晋升规则 end-->
+
+					<!-- 阶梯提成比例 -->
+					<div *ngIf="!ifHotel">
+						<ion-row class="staffCharts ladderLine">
+							<ion-col col-8 class="goals">
+								阶梯提成比例
+							</ion-col>
+							<ion-col col-4 class="right">
+								<button ion-button *ngIf="ifdisabled" class="small_btn" (click)="editLadder()">比例设置</button>
+								<button ion-button *ngIf="!ifdisabled" class="small_btn" (click)="submiLadder()">完成</button>
+							</ion-col>
+						</ion-row>
+						<table class="clientTable">
+							<tr class="headRow">
+								<th>策划师等级</th>
+								<th>0 ~
+									<ion-input name="per0" type="text" required [(disabled)]="ifdisabled" [(ngModel)]="commissionLadderList[0].upperBoundary"></ion-input>%</th>
+								<th>
+									<ion-input name="per1" type="text" required [(disabled)]="ifdisabled" [(ngModel)]="commissionLadderList[1].lowerBoundary"></ion-input> ~
+									<ion-input name="per2" type="text" required [(disabled)]="ifdisabled" [(ngModel)]="commissionLadderList[1].upperBoundary"></ion-input>%</th>
+								<th>
+									<ion-input name="per3" type="text" required [(disabled)]="ifdisabled" [(ngModel)]="commissionLadderList[2].lowerBoundary"></ion-input> ~
+									<ion-input name="per4" type="text" required [(disabled)]="ifdisabled" [(ngModel)]="commissionLadderList[2].upperBoundary"></ion-input>%</th>
+								<th>
+									<ion-input name="per5" type="text" required [(disabled)]="ifdisabled" [(ngModel)]="commissionLadderList[3].lowerBoundary"></ion-input> ~
+									<ion-input name="per6" type="text" required [(disabled)]="ifdisabled" [(ngModel)]="commissionLadderList[3].upperBoundary"></ion-input>%</th>
+								<th>
+									<ion-input name="per7" type="text" required [(disabled)]="ifdisabled" [(ngModel)]="commissionLadderList[4].lowerBoundary"></ion-input> ~
+									<ion-input name="per8" type="text" required [(disabled)]="ifdisabled" [(ngModel)]="commissionLadderList[4].upperBoundary"></ion-input>%</th>
+								<th>
+									<ion-input name="per9" type="text" required [(disabled)]="ifdisabled" [(ngModel)]="commissionLadderList[5].lowerBoundary"></ion-input> ~ ∞</th>
+							</tr>
+							<tr class="conRow" *ngFor="let item of staffLevalList; let i = index">
+								<td>{{item.name}}</td>
+								<td>
+									<ion-input name="per0" type="text" required [(disabled)]="ifdisabled" [(ngModel)]="item.commissionList[0].commission"></ion-input>%</td>
+								<td>
+									<ion-input name="per1" type="text" required [(disabled)]="ifdisabled" [(ngModel)]="item.commissionList[1].commission"></ion-input>%</td>
+								<td>
+									<ion-input name="per1" type="text" required [(disabled)]="ifdisabled" [(ngModel)]="item.commissionList[2].commission"></ion-input>%</td>
+								<td>
+									<ion-input name="per1" type="text" required [(disabled)]="ifdisabled" [(ngModel)]="item.commissionList[3].commission"></ion-input>%</td>
+								<td>
+									<ion-input name="per1" type="text" required [(disabled)]="ifdisabled" [(ngModel)]="item.commissionList[4].commission"></ion-input>%</td>
+								<td>
+									<ion-input name="per1" type="text" required [(disabled)]="ifdisabled" [(ngModel)]="item.commissionList[5].commission"></ion-input>%</td>
+							</tr>
+						</table>
+					</div>
+
+				</div>
+			</ion-col>
+		</ion-row>
+	</ion-grid>
+
+	<div class="calendarModal" *ngIf="modalVisible">
+		<div class="modalInner">
+			<span class="hidebtn" tappable (click)="hideModal()">
+				<ion-icon name="close"></ion-icon>
+			</span>
+			<h3 class="modalTitle">
+				目标设定
+			</h3>
+
+			<div class="formBox">
+				<form #ngform="ngForm" class="formBox">
+					<ion-grid>
+						<ion-row class="maintitle">
+							<ion-col col-6>
+								<div no-lines class="title">
+									<h2>月度销售目标</h2>
+									<p>累计: {{GetTotalTarget()}}万元 </p>
+								</div>
+							</ion-col>
+							<ion-col col-6 class="peoles">
+								<div no-lines class="title">
+									<h2>目标分解</h2>
+									<p>累计: {{GetTotalStaffTargetRate()}}%</p>
+								</div>
+							</ion-col>
+						</ion-row>
+						<ion-row class="maincon">
+							<!--月度销售目标-->
+							<ion-col col-6 class="months">
+								<ion-item no-lines>
+									<ion-label>1月</ion-label>
+									<ion-input type="number" name="january" required clearInput [(ngModel)]="modifyTarget.january">
+									</ion-input>
+									<span class="unit months-span" item-end>万元</span>
+								</ion-item>
+								<ion-item no-lines>
+									<ion-label>2月</ion-label>
+									<ion-input type="number" name="february" required clearInput [(ngModel)]="modifyTarget.february">
+									</ion-input>
+									<span class="unit months-span" item-end>万元</span>
+								</ion-item>
+								<ion-item no-lines>
+									<ion-label>3月</ion-label>
+									<ion-input type="number" name="march" required clearInput [(ngModel)]="modifyTarget.march">
+									</ion-input>
+									<span class="unit months-span" item-end>万元</span>
+								</ion-item>
+								<ion-item no-lines>
+									<ion-label>4月</ion-label>
+									<ion-input type="number" name="april" required clearInput [(ngModel)]="modifyTarget.april">
+									</ion-input>
+									<span class="unit months-span" item-end>万元</span>
+								</ion-item>
+								<ion-item no-lines>
+									<ion-label>5月</ion-label>
+									<ion-input type="number" name="may" required clearInput [(ngModel)]="modifyTarget.may">
+									</ion-input>
+									<span class="unit months-span" item-end>万元</span>
+								</ion-item>
+								<ion-item no-lines>
+									<ion-label>6月</ion-label>
+									<ion-input type="number" name="june" required clearInput [(ngModel)]="modifyTarget.june">
+									</ion-input>
+									<span class="unit months-span" item-end>万元</span>
+								</ion-item>
+								<ion-item no-lines>
+									<ion-label>7月</ion-label>
+									<ion-input type="number" name="july" required clearInput [(ngModel)]="modifyTarget.july">
+									</ion-input>
+									<span class="unit months-span" item-end>万元</span>
+								</ion-item>
+								<ion-item no-lines>
+									<ion-label>8月</ion-label>
+									<ion-input type="number" name="august" required clearInput [(ngModel)]="modifyTarget.august">
+									</ion-input>
+									<span class="unit months-span" item-end>万元</span>
+								</ion-item>
+								<ion-item no-lines>
+									<ion-label>9月</ion-label>
+									<ion-input type="number" name="september" required clearInput [(ngModel)]="modifyTarget.september">
+									</ion-input>
+									<span class="unit months-span" item-end>万元</span>
+								</ion-item>
+								<ion-item no-lines>
+									<ion-label>10月</ion-label>
+									<ion-input type="number" name="october" required clearInput [(ngModel)]="modifyTarget.october">
+									</ion-input>
+									<span class="unit months-span" item-end>万元</span>
+								</ion-item>
+								<ion-item no-lines>
+									<ion-label>11月</ion-label>
+									<ion-input type="number" name="november" required clearInput [(ngModel)]="modifyTarget.november">
+									</ion-input>
+									<span class="unit months-span" item-end>万元</span>
+								</ion-item>
+								<ion-item no-lines>
+									<ion-label>12月</ion-label>
+									<ion-input type="number" name="december" required clearInput [(ngModel)]="modifyTarget.december">
+									</ion-input>
+									<span class="unit months-span" item-end>万元</span>
+								</ion-item>
+							</ion-col>
+							<!--目标分解-->
+							<ion-col col-6 class="peoles">
+								<ion-item no-lines *ngFor="let item of modifyStaffTargetList; let i = index">
+									<ion-label>{{item.staff_name}}</ion-label>
+									<ion-input type="number" name="{{item.staff_id}}" clearInput required [(ngModel)]="item.target_rate">
+									</ion-input>
+									<span class="unit months-span" item-end>%</span>
+								</ion-item>
+							</ion-col>
+						</ion-row>
+						<ion-row class="subRow">
+							<ion-col col-12>
+								<button ion-button class="blckBtn" [disabled]="!ngform.valid" (click)="formSubmit(ngform.value)">
+									确定
+								</button>
+							</ion-col>
+						</ion-row>
+					</ion-grid>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<div class="calendarModal levelModal" *ngIf="levalmodalVisible">
+		<div class="modalInner">
+			<span class="hidebtn" tappable (click)="hidelevelModal()">
+				<ion-icon name="close"></ion-icon>
+			</span>
+			<h3 class="modalTitle">
+				策划师晋级设置
+			</h3>
+			<div class="formBox">
+				<form #ngform="ngForm" class="formBox">
+					<ion-item no-lines>
+						<ion-label>级别名称：</ion-label>
+						<ion-input type="text" name="name" required clearInput [(ngModel)]="staffLevel.name">
+						</ion-input>
+					</ion-item>
+					<ion-item no-lines>
+						<ion-label>基本工资：</ion-label>
+						<ion-input type="number" name="salary" clearInput [(ngModel)]="staffLevel.salary">
+						</ion-input>
+					</ion-item>
+					<ion-item no-lines>
+						<ion-label>标准提成：</ion-label>
+						<ion-input type="number" name="commission" clearInput [(ngModel)]="staffLevel.commission">
+						</ion-input>
+					</ion-item>
+					<ion-item no-lines>
+						<ion-label>升级规则：</ion-label>
+						<ion-input type="number" name="upper" clearInput [(ngModel)]="staffLevel.upper">
+						</ion-input>
+					</ion-item>
+					<ion-item no-lines>
+						<ion-label>降级规则：</ion-label>
+						<ion-input type="number" name="lower" clearInput [(ngModel)]="staffLevel.lower">
+						</ion-input>
+					</ion-item>
+
+					<ion-row class="subRow">
+						<ion-col col-12>
+							<button ion-button class="blckBtn" [disabled]="!ngform.valid" (click)="levelformSubmit(ngform.value)">
+								确定
+							</button>
+						</ion-col>
+					</ion-row>
+				</form>
+			</div>
+
+		</div>
+	</div>
+</ion-content>

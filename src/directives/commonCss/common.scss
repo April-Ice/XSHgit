@@ -1,0 +1,25 @@
+// 固定表头滚动Table
+%fixTable {
+	.fixHeight {
+		height: 60vh;
+		overflow-y: scroll;
+	}
+	// td宽度-百分比
+	.w5 {
+		max-width: 3em;
+		width: 5%;
+	}
+	.w10 {
+		max-width: 6em;
+		width: 10%;
+	}
+	.w20 {
+		width: 20%;
+	}
+	.endwidth{
+		width: 17px;
+	}
+	.txtLeft {
+		text-align: left;
+	}
+}

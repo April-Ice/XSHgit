@@ -1,0 +1,7 @@
+
+<label class="uploader-avatar" *ngIf="type == 'avatar'" style="overflow: hidden;">
+	<!-- <ion-spinner></ion-spinner> -->
+	<img *ngIf="imgUrl" [src]='imgUrl' />
+	<input type="file" accept="image/*" (change)="selectedFileOnChanged($event)" hidden >
+	<!-- <input type="file" [uploader]="uploader" ng2FileSelect (change)="selectedFileOnChanged($event)" hidden /> -->
+</label>

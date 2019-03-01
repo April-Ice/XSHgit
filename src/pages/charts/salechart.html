@@ -1,0 +1,211 @@
+<ion-header>
+	<ion-navbar color="white">
+		<ion-title>销售报表</ion-title>
+	</ion-navbar>
+</ion-header>
+
+<ion-content>
+	<ion-grid class="nopadding">
+		<ion-row>
+			<ion-col col-2 class="typebg">
+				<dfn class="xmb-chartmenu" [preload]="{active:'sales'}"></dfn>
+			</ion-col>
+			<ion-col col-10 class="chart-box">
+				<!-- 销售数据 -->
+				<div class="greyBg">
+					<ion-row class="topCharts">
+						<div class="whiteBoard co3">
+							<div class="inner">
+								<h3>目标达成率 ( {{curMonth+1}} 月 )</h3>
+								<div id="target1"></div>
+								<div class="tagMark">
+									<p><span class="orange"></span>本月销售额： {{cur_month_sale}}</p>
+									<p><span class="grey"></span>本月目标： {{account_target}}</p>
+								</div>
+							</div>
+						</div>
+						<div class="whiteBoard co6">
+							<div class="inner">
+								<h3>回款业绩排名</h3>
+								<!-- <div id="achievement"></div> -->
+								<div class="sale-list">
+									<div class="progressBox" *ngFor="let item of proList">
+										<div class="label">
+											{{item.name}}
+										</div>
+										<div class="perTxt">{{item.price}} 元</div>
+										<div class="progress">
+											<div class="ifshow">{{item.name}}{{item.price}}元</div>
+											<div class="Bar" [ngStyle]="{'width': item.process+'%'}">
+												<!-- <div>{{item.progress}}%</div> -->
+											</div>
+										</div>
+									</div>
+								</div>
+
+							</div>
+						</div>
+						<!-- </ion-col> -->
+						<!-- <ion-col col-3> -->
+						<div class="whiteBoard co2 sales">
+							<div class="inner">
+								<h3>{{curYear}}年累计回款（万元）</h3>
+								<h1>{{total_sale}}</h1>
+								<div class="iconimg">
+									<ion-icon name="trending-up" item-start></ion-icon>
+									<!-- <ion-icon name="trending-down" item-start></ion-icon> -->
+								</div>
+							</div>
+						</div>
+						<!-- </ion-col> -->
+					</ion-row>
+
+					<ion-row class="staffCharts">
+						<ion-col col-4>
+							<ion-segment class="museg" [(ngModel)]="pet" (ngModelChange)='getXY()'>
+								<ion-segment-button value="sales">
+									回款额（万元）
+								</ion-segment-button>
+								<ion-segment-button value="num">
+									订单统计（个）
+								</ion-segment-button>
+							</ion-segment>
+						</ion-col>
+						<ion-col col-4 class="center">
+							<button ion-button (click)="getPreYear()">
+								<ion-icon name="arrow-back"></ion-icon>
+							</button>
+							<span>{{curYear}}年</span>
+							<button ion-button (click)="getNextYear()">
+								<ion-icon name="arrow-forward"></ion-icon>
+							</button>
+							<!-- <ion-datetime displayFormat="YYYY" [(ngModel)]="chartYear"></ion-datetime> -->
+						</ion-col>
+						<ion-col col-4>
+							<ion-item no-lines>
+								<ion-select [(ngModel)]="staff" (ngModelChange)='getXY()'>
+									<ion-option value="0">全部员工</ion-option>
+									<ion-option value="{{item.id}}" *ngFor="let item of proList">{{item.name}}</ion-option>
+								</ion-select>
+							</ion-item>
+						</ion-col>
+					</ion-row>
+
+					<div id="staff"></div>
+				</div>
+			</ion-col>
+		</ion-row>
+	</ion-grid>
+
+	<div class="calendarModal" *ngIf="modalVisible">
+		<div class="modalInner">
+			<span class="hidebtn" tappable  (click)="hideModal()">
+				<ion-icon name="close"></ion-icon>
+			</span>
+			<h3 class="modalTitle">
+				目标设定
+			</h3>
+
+			<div class="formBox">
+				<form #ngform="ngForm" class="formBox">
+					<ion-grid>
+						<ion-row>
+							<ion-col col-6 class="months">
+								<div no-lines class="title">
+									<h2>月度销售目标</h2>
+									<p>累计: 1990万元</p>
+								</div>
+								<ion-item no-lines>
+									<ion-label>1月</ion-label>
+									<ion-input type="text" name="one" clearInput ngModel>
+									</ion-input>
+									<span class="unit" item-end>万元</span>
+								</ion-item>
+								<ion-item no-lines>
+									<ion-label>3月</ion-label>
+									<ion-input type="text" name="two" clearInput ngModel>
+									</ion-input>
+									<span class="unit" item-end>万元</span>
+								</ion-item>
+								<ion-item no-lines>
+									<ion-label>4月</ion-label>
+									<ion-input type="text" name="three" clearInput ngModel>
+									</ion-input>
+									<span class="unit" item-end>万元</span>
+								</ion-item>
+								<ion-item no-lines>
+									<ion-label>5月</ion-label>
+									<ion-input type="text" name="three" clearInput ngModel>
+									</ion-input>
+									<span class="unit" item-end>万元</span>
+								</ion-item>
+								<ion-item no-lines>
+									<ion-label>6月</ion-label>
+									<ion-input type="text" name="three" clearInput ngModel>
+									</ion-input>
+									 <span class="unit" item-end>万元</span>
+								</ion-item>
+								<ion-item no-lines>
+									<ion-label>7月</ion-label>
+									<ion-input type="text" name="three" clearInput ngModel>
+									</ion-input>
+									<span class="unit" item-end>万元</span>
+								</ion-item>
+							</ion-col>
+							<ion-col col-6 class="peoles">
+								<div no-lines class="title">
+									<h2>目标分解</h2>
+									<p>累计: 90%</p>
+								</div>
+								<ion-item no-lines>
+									<ion-label>吴辉</ion-label>
+									<ion-input type="text" name="name1" clearInput ngModel>
+									</ion-input>
+									<span class="unit" item-end>%</span>
+								</ion-item>
+								<ion-item no-lines>
+									<ion-label>吴辉</ion-label>
+									<ion-input type="text" name="name1" clearInput ngModel>
+									</ion-input>
+									<span class="unit" item-end>%</span>
+								</ion-item>
+								<ion-item no-lines>
+									<ion-label>吴辉</ion-label>
+									<ion-input type="text" name="name1" clearInput ngModel>
+									</ion-input>
+									<span class="unit" item-end>%</span>
+								</ion-item>
+								<ion-item no-lines>
+									<ion-label>吴辉</ion-label>
+									<ion-input type="text" name="name1" clearInput ngModel>
+									</ion-input>
+									<span class="unit" item-end>%</span>
+								</ion-item>
+								<ion-item no-lines>
+									<ion-label>吴辉</ion-label>
+									<ion-input type="text" name="name1" clearInput ngModel>
+									</ion-input>
+									<span class="unit" item-end>%</span>
+								</ion-item>
+								<ion-item no-lines>
+									<ion-label>吴辉</ion-label>
+									<ion-input type="text" name="name1" clearInput ngModel>
+									</ion-input>
+									<span class="unit" item-end>%</span>
+								</ion-item>
+							</ion-col>
+						</ion-row>
+						<ion-row class="subRow">
+							<ion-col col-12>
+								<button ion-button class="blckBtn" [disabled]="!ngform.valid" (click)="formSubmit(ngform.value)">
+									确定
+								</button>
+							</ion-col>
+						</ion-row>
+					</ion-grid>
+				</form>
+			</div>
+		</div>
+	</div>
+
+</ion-content>

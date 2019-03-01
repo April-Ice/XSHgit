@@ -1,0 +1,321 @@
+<!-- <ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>首页</ion-title>
+  </ion-navbar>
+</ion-header> -->
+
+
+<ion-content class="index-page" scroll="false">
+
+	<div *ngIf="imgSrc.length > 0" class="bgImg">
+		<img src="{{space?.index_img}}" />
+	</div>
+	<div class="warn-screen">
+		<ion-card>
+			<ion-card-header>
+				检测到非横屏状态
+			</ion-card-header>
+			<ion-card-content>
+				竖屏下内容排版错乱，请切换到横屏，以获得更好体验
+			</ion-card-content>
+		</ion-card>
+	</div>
+	<div class="landscape">
+		<div class="logo">
+			<div class="trigle" tappable  (click)="gotoLogin()"></div>
+			<img src="{{hotelLogo}}" />
+		</div>
+		<!--<div class="pattern"></div>-->
+		<div class="hall-name" *ngIf="space" style="position: relative">
+			<!--<h3>{{space.en_name}}</h3>-->
+			<h4>{{space.name}}</h4>
+			<!--<span class="en-des">Because The Foucs So Professional</span>-->
+			<!--<span class="en-hr"></span>-->
+			<div class="new" >
+				<span class="new-top" ></span>
+				<span style="width: 36%;display: inline-block;">Because The Foucs So Professional</span>
+				<span class="new-top" ></span>
+			</div>
+		</div>
+		<div class="login-box" *ngIf="!login" tappable  (click)="gotoLogin();">
+			登录
+		</div>
+		<div class="view-box" *ngIf="login" style="float: left;margin-left: calc(50% - 13vw);">
+			<div tappable  (click)="showYearOrders();">
+				<div>
+					<div class="iconBox">
+						<ion-icon name="ios-document-outline"></ion-icon>
+					</div>
+					查看订单
+				</div>
+			</div>
+			<div tappable  (click)="gotoOrdersSearch();">
+				<div>
+					<div class="iconBox">
+						<ion-icon name="ios-document-outline"></ion-icon>
+					</div>
+					档期查询
+				</div>
+			</div>
+			<div tappable  (click)="gotoCompanyIntro();" *ngIf="!ifHotel">
+				<div class="whiteBg">
+					<div class="iconBox">
+						<ion-icon name="ios-book-outline"></ion-icon>
+					</div>
+					公司介绍
+				</div>
+			</div>
+			<div tappable  (click)="gotoServiceSystem();" *ngIf="!ifHotel">
+				<div class="whiteBg">
+					<div class="iconBox">
+						<ion-icon name="ios-heart-outline"></ion-icon>
+					</div>
+					服务体系
+				</div>
+			</div>
+			<div tappable  (click)="gotoChart();">
+				<div>
+					<div class="iconBox">
+						<ion-icon name="ios-pie-outline"></ion-icon>
+					</div>
+					数据报表
+				</div>
+			</div>
+		</div>
+
+		<div class="pic-box" *ngIf="login && hallId!=0">
+			<div class="btn-out" tappable  (click)="gotoPics();">
+				照片展示
+			</div>
+			<div class="btn-out" tappable  (click)="gotoViews();">
+				720度全景展示
+			</div>
+		</div>
+
+		<div class="foot-memu" *ngIf="login">
+			<div class="hall-box home-menu" *ngIf="space" [ngClass]="{'active': hallId == 0}" tappable  (click)="checkHall(0);">
+				<span class="menuImg">
+					<img src="{{space?.index_img}}">
+				</span>
+				<div>首页</div>
+			</div>
+			<div class="hall-box diamond-hall" *ngFor="let hall of preHallList" [ngClass]="{'active': hallId == hall.id}" tappable  (click)="checkHall(hall);">
+				<span class="menuImg">
+					<img src="{{hall.img_url}}">
+				</span>
+				<div>{{hall.name}}</div>
+			</div>
+			<div class="center-product" tappable  (click)="gotoProducts();">
+				<!-- <div>产品体系</div> -->
+			</div>
+			<div class="hall-box crystal-hall" *ngFor="let hall of afterHallList" [ngClass]="{'active': hallId == hall.id}" tappable  (click)="checkHall(hall);">
+				<span class="menuImg">
+					<img src="{{hall.img_url}}">
+				</span>
+				<div>{{hall.name}}</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="calendarModal" [ngClass]="{'smallModal': monthVisible == true}" *ngIf="yearVisible || monthVisible">
+		<div class="modalInner bounceIn">
+			<span class="hidebtn" tappable (click)="hideYearModal()">
+				<ion-icon name="close"></ion-icon>
+			</span>
+
+			<ion-grid *ngIf="yearVisible">
+				<div class="modalTop">
+					<ion-row>
+						<ion-col col-5 class="left">
+							<ion-row>
+								<ion-col col-4 class="hallselect">
+									<ion-select [(ngModel)]="selectHotel" (ngModelChange)='getYearData()'>
+										<ion-option value="0" selected="true">全部大厅</ion-option>
+										<ion-option value="{{item.id}}" *ngFor="let item of hotelList">{{item.name}}</ion-option>
+									</ion-select>
+								</ion-col>
+								<ion-col col-8>
+									<span>| 已定{{yearDeal}}场，待定{{yearNoDeal}}场</span>
+								</ion-col>
+							</ion-row>
+						</ion-col>
+						<ion-col col-5 class="center">
+							<button ion-button  (click)="getPreYear()">
+								<ion-icon name="arrow-back"></ion-icon>
+							</button>
+							<span>{{curYear}}年</span>
+							<button ion-button (click)="getNextYear()">
+								<ion-icon name="arrow-forward"></ion-icon>
+							</button>
+						</ion-col>
+						<ion-col col-2 class="right">
+							<button ion-button (click)="gotoAddOrder()">新建订单</button>
+						</ion-col>
+					</ion-row>
+
+				</div>
+
+				<ion-slides pager showWhen="portrait">
+					<ion-slide>
+						<ion-row>
+							<ion-col col-4 *ngFor="let item of monthdataTop" tappable  (click)="showSingle(item.month)">
+								<div class="monthItem">
+									<ion-item no-lines class="calTitle">
+										<span>{{item.month}}月 | </span>已定{{item.deal?item.deal:0}}单，待定{{item.noDeal?item.noDeal:0}}单
+										<span item-end>
+											<ion-icon name="arrow-forward"></ion-icon>
+										</span>
+									</ion-item>
+									<dfn class="xmb-calendar" [preload]="{dealDate:item.dealDate,nodealDate:item.noDealDate,year:curYear,month:item.month}"></dfn>
+								</div>
+							</ion-col>
+						</ion-row>
+					</ion-slide>
+
+					<ion-slide>
+						<ion-row>
+							<ion-col col-4 *ngFor="let item of monthdataBottom" tappable  (click)="showSingle(item.month)">
+								<div class="monthItem">
+									<ion-item no-lines class="calTitle">
+										<span>{{item.month}}月 | </span>已定{{item.deal?item.deal:0}}单，待定{{item.noDeal?item.noDeal:0}}单
+										<span item-end>
+											<ion-icon name="arrow-forward"></ion-icon>
+										</span>
+									</ion-item>
+									<dfn class="xmb-calendar" [preload]="{dealDate:item.dealDate,nodealDate:item.noDealDate,year:curYear,month:item.month}"></dfn>
+								</div>
+							</ion-col>
+						</ion-row>
+					</ion-slide>
+				</ion-slides>
+
+				<div showWhen="landscape">
+					<ion-row>
+						<ion-col col-2 *ngFor="let item of monthdataTop" tappable  (click)="showSingle(item.month)">
+							<div class="monthItem">
+								<ion-item no-lines class="calTitle">
+									<span>{{item.month}}月 | </span>已定{{item.deal?item.deal:0}}单，待定{{item.noDeal?item.noDeal:0}}单
+									<span item-end>
+										<ion-icon name="arrow-forward"></ion-icon>
+									</span>
+								</ion-item>
+								<dfn class="xmb-calendar" [preload]="{dealDate:item.dealDate,nodealDate:item.noDealDate,year:curYear,month:item.month}"></dfn>
+							</div>
+						</ion-col>
+						<ion-col col-2 *ngFor="let item of monthdataBottom" tappable  (click)="showSingle(item.month)">
+							<div class="monthItem">
+								<ion-item no-lines class="calTitle">
+									<span>{{item.month}}月 | </span>已定{{item.deal?item.deal:0}}单，待定{{item.noDeal?item.noDeal:0}}单
+									<span item-end>
+										<ion-icon name="arrow-forward"></ion-icon>
+									</span>
+								</ion-item>
+								<dfn class="xmb-calendar" [preload]="{dealDate:item.dealDate,nodealDate:item.noDealDate,year:curYear,month:item.month}"></dfn>
+							</div>
+						</ion-col>
+					</ion-row>
+				</div>
+
+			</ion-grid>
+
+			<div *ngIf="monthVisible">
+				<div class="modalTop">
+					<ion-row>
+						<ion-col col-4 class="left">
+							<button ion-button class="backBtn"  (click)="gobackModal()" clear>
+								<ion-icon name="arrow-back"></ion-icon>
+							</button>
+						</ion-col>
+						<ion-col col-4 class="txtCenter">
+							{{hallname}}
+						</ion-col>
+						<ion-col col-4 class="right">
+							<button ion-button (click)="gotoAddOrder()">新建订单</button>
+						</ion-col>
+					</ion-row>
+				</div>
+				<ion-grid>
+					<ion-row class="searchRow">
+						<ion-col col-6>
+							<div class="ordertype">
+								<button ion-button [ngClass]="{'active': ordertypevalue == '0'}" (click)="setType('0')">全部 </button>
+								<button ion-button [ngClass]="{'active': ordertypevalue == '2'}" (click)="setType('2')">婚礼 </button>
+								<button ion-button [ngClass]="{'active': ordertypevalue == '1'}" (click)="setType('1')">会议 </button>
+							</div>
+							<!-- <ion-segment [(ngModel)]="pet">
+                                <ion-segment-button value="wedding" (click)="getmouthOrders()">
+                                    婚礼
+                                </ion-segment-button>
+                                <ion-segment-button value="meeting" (click)="getmouthOrders()">
+                                    会议
+                                </ion-segment-button>
+                                <ion-segment-button value="dinner" (click)="getmouthOrders()">
+                                    宴会
+                                </ion-segment-button>
+                            </ion-segment> -->
+						</ion-col>
+						<ion-col col-6 class="paddingR">
+							<ion-searchbar class="calSearch" (ionInput)="getItems($event)" placeholder="请输入要搜索的内容"></ion-searchbar>
+						</ion-col>
+					</ion-row>
+					<ion-row class="contentAll">
+						<ion-col col-4>
+							<div class="CalRBox">
+								<h3>{{curYear}}年{{checkmonth}}月</h3>
+								<dfn class="xmb-calendar" [preload]="{dealDate:monthData[checkmonth-1].dealDate,nodealDate:monthData[checkmonth-1].noDealDate,year:curYear,month:checkmonth}"></dfn>
+							</div>
+							<div class="marks">
+								<span>红色-已交定金</span>
+								<span>绿色-未交·定金</span>
+							</div>
+						</ion-col>
+						<ion-col col-8 class="paddingL">
+							<ion-list no-lines>
+								<ion-item class="orderItem" no-lines *ngFor="let item of orderlists;let i = index">
+									<h2 tappable  (click)="gotoDetail(item.order_id)" >{{item.order_name}}</h2>
+									<p tappable  (click)="gotoDetail(item.order_id)">
+										<span> {{item.order_date}}</span> |
+										<span>{{item.designer_name}}</span> |
+										<span>
+											距离活动还有<span class="red">{{item.order_day}}</span>天
+										</span>
+									</p>
+									<span item-end class="red" *ngIf="parseInt(item.order_status) !== 0 && parseInt(item.order_status) !== 1">已交定金</span>
+									<span item-end *ngIf="parseInt(item.order_status) == 0 || parseInt(item.order_status) == 1 ">未交定金</span>
+
+									<button ion-button clear style="width:2em; color:#999" item-end (click)="deleteOrder(item,i)">
+										<ion-icon name="trash" class="ifshow"></ion-icon>
+									</button>
+								</ion-item>
+							</ion-list>
+						</ion-col>
+					</ion-row>
+				</ion-grid>
+			</div>
+		</div>
+	</div>
+
+	<div class="floatBtn" tappable  (click)="ifFloat = !ifFloat" >
+		<ion-icon name="menu"></ion-icon>
+	</div>
+	<div class="floatMenu fadeIn" *ngIf="ifFloat">
+		<ion-item no-lines>
+			<button ion-button clear item-end (click)="ifFloat = !ifFloat">
+				<ion-icon name="close"></ion-icon>
+			</button>
+		</ion-item>
+		<div class="itemCell" no-lines [ngClass]="{'subcell': item.name == '找资源'}" *ngFor="let item of floatList" tappable  (click)="gotoFloat(item)">
+			{{item.name}}
+			<div class="subBox">
+				<div class="subcell" no-lines *ngFor="let value of subList" tappable  (click)="gotoFloat(value)">
+					{{value.name}}
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+</ion-content>

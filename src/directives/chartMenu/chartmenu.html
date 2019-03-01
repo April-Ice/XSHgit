@@ -1,0 +1,20 @@
+<ion-list no-lines>
+		<button class="typebtn" no-lines ion-item [ngClass]="{'active':  chatmemu == 'orders'}" (click)="setmemu('orders');">
+		  <ion-icon name="move" item-start></ion-icon>订单数据
+			</button>
+	<button class="typebtn" no-lines ion-item [ngClass]="{'active':  chatmemu == 'sales'}" (click)="setmemu('sales');">
+		<ion-icon name="stats" item-start></ion-icon>销售数据
+	</button>
+	<button class="typebtn" no-lines ion-item [ngClass]="{'active':  chatmemu == 'finance'}" (click)="setmemu('finance')">
+		<ion-icon name="move" item-start></ion-icon>财务数据
+	</button>
+	<!-- <button class="typebtn" no-lines ion-item [ngClass]="{'active':  chatmemu == 'clients'}" (click)="setmemu('clients')">
+		<ion-icon name="contact" item-start></ion-icon>客户列表
+	</button> -->
+	<button class="typebtn" no-lines ion-item *ngIf="!ifHotel" [ngClass]="{'active':  chatmemu == 'goals'}" (click)="setmemu('goals')">
+		<ion-icon name="move" item-start></ion-icon>目标&薪酬
+    </button>
+    <button class="typebtn" no-lines ion-item *ngIf="ifHotel" [ngClass]="{'active':  chatmemu == 'goals'}" (click)="setmemu('goals')">
+		<ion-icon name="move" item-start></ion-icon>目标设定
+	</button>
+</ion-list>

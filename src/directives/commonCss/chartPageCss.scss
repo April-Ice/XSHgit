@@ -1,0 +1,44 @@
+// chart图表公共样式
+%chartPage {
+	.typebg {
+		@extend %typebg;
+		min-height: 94vh;
+	}
+	.nopadding {
+		padding: 0;
+	}
+	.side-menu {
+		border-right: 1px solid #000;
+	}
+	.chart-box {
+		padding: 0;
+		height: 93.9vh;
+		>div {
+			// min-height: 94vh;
+		}
+		.imgbox {
+			width: 16rem;
+			height: 10rem;
+			overflow: hidden;
+			img {
+				width: 100%;
+				min-height: 100%;
+			}
+		}
+	}
+	.greyBg {
+		background: #eee;
+		padding: 2rem;
+		min-height: 100%;
+	}
+	.clientBg {
+		padding: .1rem;
+	}
+	ion-select {
+		width: 100%;
+		max-width: 100% !important;
+		.select-text {
+			min-width: 6em;
+		}
+	}
+}

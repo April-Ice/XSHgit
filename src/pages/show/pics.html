@@ -1,0 +1,61 @@
+<ion-header>
+	<ion-navbar color="white">
+		<ion-title>{{hallname}}</ion-title>
+		<ion-buttons end>
+			<button ion-button class="newBtn" (click)="editPhoto()" *ngIf="!isEdit">
+				编辑
+			</button>
+			<button ion-button class="newBtn" *ngIf="isEdit" style="margin-right: 20px" (click)="uploadImg()">上传图片/视频</button>
+			<button id="uploadFile" style="display: none;"></button>
+			<button ion-button class="newBtn" *ngIf="isEdit" style="background-color: #ffc43a;" (click)="savePhoto()">完成</button>
+		</ion-buttons>
+	</ion-navbar>
+</ion-header>
+
+<ion-content scroll="false" class="piscs-page">
+	<!-- 缺少加载动画 -->
+
+	<ion-grid class="piscs-con">
+		<ion-row>
+			<ion-col col-3 col-lg-4 *ngFor="let item of piclist;let i = index ">
+				<ion-card>
+					<!-- <img src="../assets/imgs/index/bg.jpg" /> -->
+					<img src={{item.img_url}} tappable  (click)="showBigImg(item.img_url,i);" />
+					<div class="img-black" [hidden]="ShowBlack">
+						<!--<ion-icon name="ios-close-circle-outline"></ion-icon>-->
+						<span (click)="deleteImg(item,i)">X</span>
+					</div>
+					<div class="card-title">
+						<span class="card-title-span" >{{item.name==null?hallname:item.name}}</span>
+						<input class="card-title-input" type="text" [(ngModel)]="item.name" value="{{item.name}}" [disabled]="ShowBlack" >
+					</div>
+					<!--<div class="pic-name">{{item.update_time.substring(0,10).split('-').join('.')}}</div>-->
+					<ion-icon [hidden]="ShowBlack" class="pic-edit" name="ios-create-outline" (click)="editName(item,i)" ></ion-icon>
+					<ion-icon class="pic-save" name="ios-checkmark" md="md-checkmark" (click)="saveName(item,i)" ></ion-icon>
+				</ion-card>
+			</ion-col>
+		</ion-row>
+	</ion-grid>
+	<div class="big-img" (click)="hideBigImg()"  [hidden]="showPic">
+		<!--*ngIf="showBig"-->
+		<!--<ion-slides *ngIf="piclist.length>0"  [initialSlide]="initialSlide">-->
+			<!--<ion-slide *ngFor="let item of piclist" >-->
+				<!--<img src="{{item.img_url}}" class="slide-image" (click)="hideBigImg()" tappable>-->
+
+			<!--</ion-slide>-->
+			<!--<div class="swiper-button-prev swiper-button-white"></div>-->
+			<!--<div class="swiper-button-next swiper-button-white"></div>-->
+		<!--</ion-slides>-->
+
+		<div class="swiper-container" >
+			<div class="swiper-wrapper">
+				<div class="swiper-slide" *ngFor="let item of piclist ">
+					<img src="{{item.img_url_lg}}"  tappable (click)="hideBigImg()" class="list-img">
+				</div>
+
+			</div>
+			<div class="swiper-button-prev swiper-button-white" (click)="stopE($event)"></div>
+			<div class="swiper-button-next swiper-button-white" (click)="stopE($event)"></div>
+		</div>
+	</div>
+</ion-content>

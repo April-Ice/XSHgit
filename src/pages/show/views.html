@@ -1,0 +1,27 @@
+<ion-header>
+	<ion-navbar color="white" hideBackButton="true">
+		<button ion-button clear (click)="goBack()">
+			<ion-icon name="arrow-back" style="font-size: 3rem"> </ion-icon>
+		</button>
+		<ion-title>{{title}}</ion-title>
+		<ion-buttons end>
+			<button class="blickBtn" *ngIf="title=='订单详情'" ion-button (click)="gotoEditOrder()">编辑订单</button>
+		</ion-buttons>
+	</ion-navbar>
+
+</ion-header>
+
+<ion-content>
+	<iframe [src]="url" *ngIf="showDef"></iframe>
+	<iframe class="view-iframe" [src]="priceUrl" *ngIf="!showDef"></iframe>
+	<!--<ion-fab top left>-->
+	<!--<button ion-fab navPop>-->
+	<!--<ion-icon name="arrow-back"></ion-icon>-->
+	<!--</button>-->
+	<!--</ion-fab>-->
+	<!-- <div class="views-button" *ngIf="showButton">
+		<button ion-button class="blckBtn" style="margin-left: 0" (click)="goDoing()">执行单</button>
+		<button ion-button class="blckBtn" (click)="goPrice()">报价单</button>
+		<button ion-button class="blckBtn" (click)="goDoing()">合同</button>
+	</div> -->
+</ion-content>

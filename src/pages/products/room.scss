@@ -1,0 +1,75 @@
+page-room {
+	.nopadding,
+	ion-col[col-1] {
+		padding: 0;
+	}
+	.txtRight {
+		text-align: right;
+		button {
+			background: #43484e;
+			color: #fff;
+		}
+	}
+	.menubg {
+		@extend %menubg;
+	}
+	.typebg {
+		@extend %typebg;
+	}
+	.product-box {
+		@extend %product-box;
+	}
+	.calendarModal{
+		@extend %calendarModal;
+		.modalInner{
+			width: 70vw;
+			min-height: 70vh;
+		}
+	}
+	.orderModal {// 单行表单Modal
+		@extend %lineModal;
+	}
+	@media screen and (min-width: 1024px) {
+		.newAdd {
+			.modalInner {
+				max-width: 50vw;
+				min-height: 70vh;
+				margin-top: 5.5rem;
+			}
+		}
+		.toptitle {
+			button {
+				height: 3.6rem;
+				h3 {
+					margin: 0;
+				}
+			}
+			.txtRight {
+				// padding-top: 1.4rem;
+			}
+		}
+		.modalTitle {
+			padding: 1rem 1rem;
+		}
+	}
+
+	.room-item ion-label{
+		//min-width: 40% !important;
+		float: left;
+		width: 7rem !important;
+	}
+	.room-item ion-input{
+		min-width:5rem !important;
+		float: left;
+	}
+	.alert-span{
+		color: red;
+		padding-left: 16px;
+		float: left;
+		//width: 100%;
+		margin-left: 8rem;
+	}
+	.room-alert-font{
+		color: red;
+	}
+}

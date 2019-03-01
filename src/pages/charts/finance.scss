@@ -1,0 +1,516 @@
+page-finance {
+    @extend %chartPage; // 财务数据
+    .bggreen {
+        color: #4dd56d;
+    }
+    .search-div {
+        float: left;
+        width: 100%;
+        height: 50px;
+        padding: 0 10px;
+    }
+    .search-div select {
+        float: right;
+        width: auto;
+        height: 30px !important;
+        margin-top: calc(10px);
+        text-align: center;
+        border: 0;
+        color: #66CCFF;
+    }
+    .search-div .item-cover {
+        width: 50%;
+    }
+    .search-div-left {
+        width: 50%;
+        float: left;
+        height: 30px;
+        margin-top: calc(10px);
+    }
+    .search-div-left div {
+        width: 50%;
+        float: left;
+        height: 30px;
+        border: 1px solid #c3c3c3;
+    }
+    .search-div-left ion-icon {
+        float: left;
+        margin-top: 0.5rem;
+        margin-left: 0.5rem;
+    }
+    .search-div-left ion-input {
+        width: 80%;
+        float: left;
+    }
+    .search-div-left input {
+        margin: 0;
+        line-height: 30px;
+    }
+    .search-div-left button {
+        height: 30px;
+        margin: 0;
+        width: 100px;
+        float: left;
+        margin-left: 10px;
+        background: #66CCFF;
+        letter-spacing: 5px;
+    }
+    .bgred {
+        color: #ff0000;
+    }
+    .f-table td {
+        float: left; //max-width: 10em !important;
+    }
+    .w10 {
+        max-width: 28em !important;
+    }
+    .f-table-b td {
+        float: left;
+        height: 6em;
+    }
+    .f-table-td {
+        line-height: 3em;
+    }
+    .getMore {
+        width: 100px;
+        height: 50px; //position: absolute;
+        //bottom: 0;
+        margin-left: calc(50% - 50px);
+        border-radius: 50%;
+    }
+    .getMore-div {
+        //background:url("../../assets/imgs/arrow.png") no-repeat center;
+        width: 40px;
+        height: 40px;
+        background: #fff;
+        margin-top: -15px;
+        border-radius: 50%;
+        border: 1px solid #c3c3c3;
+        float: left;
+        margin-left: calc(50% - 20px);
+    }
+    .getMore-div span {
+        background: url(../../assets/imgs/arrow.png) no-repeat center;
+        width: 20px;
+        height: 20px;
+        margin-left: 10px;
+        margin-top: 10px;
+        float: left;
+        background-size: 100%;
+    }
+    .getMore :nth-child(2) {
+        width: 100%;
+        text-align: center;
+        float: left;
+    }
+    .circleTop {
+        .bgBox {
+            background: #fff;
+            padding: 1rem;
+            >P {
+                margin: 0 0 1rem 0;
+            }
+            ion-avatar {
+                font-size: 1.4rem;
+                width: 5em;
+                height: 3.5em;
+                img {
+                    width: 100%;
+                    height: 100%;
+                }
+            }
+        }
+    }
+    .fixTable {
+        @extend %fixTable;
+        .tableHeight {
+            height: 66vh;
+            overflow-y: scroll;
+            background: #fff;
+        }
+        .fixHeight {
+            height: 50vh;
+        }
+    }
+    .clientTable {
+        background: #fff;
+        width: 100%; // line-height: 2;
+        font-size: 1.6rem;
+        text-align: center;
+        th {
+            // padding: .6em;
+            padding: .6em 0;
+            background: #f7f5f5;
+            border-top: 1px solid #ccc;
+            border-bottom: 1px solid #ccc;
+        }
+        td {
+            padding: 1.2em 0;
+            border-bottom: 1px dashed #eee;
+            h3 {
+                font-weight: bold;
+                font-size: 1.6rem;
+            }
+            p {
+                font-weight: normal;
+                color: #bfbfbf;
+                margin: 0;
+                line-height: 2;
+            }
+        }
+        .txtRed {
+            color: #ff0000;
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+    }
+    .finaTable {
+        font-size: 1.4rem;
+        color: #333;
+        .nameCell {
+            width: 10em;
+            overflow: hidden;
+            padding: 0;
+            text-align: left;
+            display: inline-block;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            float: left;
+            margin-left: 10px;
+            text-align: center;
+        }
+        .priceCell {
+            width: 5em;
+            line-height: 3em;
+        }
+        .percentCell {
+            width: 3em;
+            line-height: 3em;
+        }
+        .green {
+            display: inline-block;
+            color: #4dd56d;
+            width: 5em;
+            float: right;
+            padding: 0; //margin-left: 1.6em;
+        }
+        td>span {
+            display: inline-block;
+            padding-left: 1rem;
+        }
+    }
+    .txtRight {
+        text-align: right;
+    }
+    .greyBtn {
+        //灰色按钮
+        background: #444b51;
+    }
+    .calendarModal {
+        @extend %calendarModal;
+        padding: 0;
+        max-height: 100vh;
+        .title {
+            padding-top: 1.6rem;
+        }
+        .greyBtn {
+            font-size: 1.2rem !important;
+        }
+    }
+    .taskModal {
+        // 业绩分配弹窗
+        .modalInner {
+            width: 65vw; // margin: 6rem auto 0;
+            // padding: 1rem 4rem;
+        }
+        .extraTable {
+            margin-top: 1rem;
+            tr th {
+                background: #fff !important;
+                border-color: #eee !important; // font-weight: bold;
+            }
+            .inputline {
+                ion-input {
+                    background: #eee;
+                    display: inline-block;
+                    padding: 0 .4em 0 .6em;
+                    width: 4em;
+                }
+            }
+            .selectline {
+                // width: 8em;
+                overflow: hidden;
+                ion-item {
+                    width: 10em;
+                    margin: 0 auto;
+                }
+                ion-select {
+                    background: #eee;
+                    width: 8em;
+                }
+            }
+            ion-icon {
+                font-size: 2.6rem;
+                display: inline-block;
+                margin: 0 .4rem;
+            }
+        }
+    }
+    .blckBtn {
+        min-width: 4em;
+        background: #444b51;
+        height: 2.2em;
+    }
+    .subRow {
+        margin-top: 1rem;
+        border-top: 1px dashed #ccc;
+        text-align: center;
+        padding-top: 1rem;
+        button {
+            width: 6em;
+            background: #444b51;
+        }
+    }
+    .setoModal {
+        // 设置默认业绩分配弹窗
+        .modalInner {
+            width: 40vw;
+            margin: 8rem auto 0;
+            min-height: 62vh;
+        }
+        .newPro {
+            padding-left: 10%;
+            ion-input {
+                font-size: 1.4rem;
+                background: #eee;
+            }
+        }
+        .greyBtn {
+            font-size: 1.2rem;
+            margin-right: 2rem;
+        }
+        .formBox {
+            position: relative;
+            .newItemBox {
+                border-radius: .4rem;
+                position: absolute;
+                padding-top: 1rem;
+                top: 23%;
+                left: 30%;
+                width: 26.1rem;
+                background: rgba(0, 0, 0, .92); // padding:1rem;
+                ion-item {
+                    margin: 0;
+                    background: transparent;
+                    color: #fff;
+                    font-size: 1.4rem;
+                    cursor: pointer;
+                    &:hover {
+                        background: #333 !important;
+                    }
+                    ion-icon {
+                        font-size: 2.4rem;
+                    }
+                    ion-label {
+                        min-width: 10em;
+                    }
+                }
+                .icon-red {
+                    color: #ff0000;
+                }
+                .txtCenter {
+                    text-align: center;
+                    button {
+                        height: 2em;
+                    }
+                }
+                ion-input {
+                    background: #000;
+                    color: #eee;
+                    padding-left: 1rem;
+                    border-radius: .4rem;
+                }
+            }
+            .qudao {
+                background: #eee;
+                width: 10em;
+            }
+            .bodyCon {
+                height: 34vh;
+                overflow-y: auto;
+            }
+            ion-item {
+                margin: 1.2rem 0;
+                &:hover {
+                    .unit ion-icon {
+                        display: inline-block;
+                    }
+                }
+                .unit {
+                    text-align: center; // width: 10%;
+                    ion-icon {
+                        display: none;
+                    }
+                }
+            }
+            ion-label {
+                width: 50%;
+                padding-left: 10%;
+            }
+            ion-input {
+                width: 25%;
+                background: #eee;
+            }
+            .perEm {
+                display: inline-block;
+                width: 5%;
+                font-style: normal;
+            }
+            .unit {
+                display: inline-block;
+                width: 10%;
+                cursor: pointer;
+            }
+            ion-col {
+                padding: 1rem;
+            }
+            .title {
+                display: flex;
+                h2 {
+                    width: 40%;
+                    padding-left: 12%;
+                    font-weight: bold;
+                    font-size: 1.6rem;
+                    margin: 0 0 1rem 0;
+                }
+                p {
+                    width: 20%;
+                    text-align: center;
+                    margin: 0;
+                }
+            }
+        }
+        .subRow {
+            margin-top: 1rem;
+            border-top: 1px dashed #ccc;
+            text-align: center;
+            padding-top: 1rem;
+            button {
+                width: 6em;
+                background: #444b51;
+            }
+        }
+    }
+    .backModal {
+        .modalInner {
+            width: 46rem !important;
+            min-height: 48vh !important;
+        }
+    }
+    .paymentModal {
+        .modalInner {
+            width: 80vw;
+		}
+
+        td {
+            text-align: center;
+            width: 20%;
+        }
+        ion-input,
+        ion-select {
+            min-width: 6em !important;
+            padding-left: 1em;
+		}
+		ion-datetime{
+			min-width: 10em;
+			overflow: hidden;
+		}
+    }
+    .costModal {
+        .modalInner {
+            width: 65vw; // margin: 6rem auto 0;
+            // padding: 1rem 4rem;
+        }
+        .greyBtn {
+            padding: .4rem 1rem;
+        }
+        .titleRow {
+            border-bottom: 1px dashed #eee; // margin-bottom: 1rem;
+        }
+        .infoRow {
+            p>span,
+            .aaa {
+                // display: inline-block;
+                width: 8em;
+                text-align: justify;
+                float: left;
+            }
+        }
+        .middleHeight {
+            min-height: 34vh;
+        }
+        .inlineTable {
+            display: flex;
+            flex-flow: row wrap;
+            margin-bottom: 2rem;
+            border-top: 1px solid #ccc;
+            background: #eee;
+            .no-border li {
+                border: 0 !important;
+                border-bottom: 1px solid #bbb !important;
+            }
+            .conCell {
+                &:nth-child(3n) {
+                    li:nth-child(3n) {
+                        border-right: 0 !important;
+                    }
+                }
+            }
+            ul {
+                width: 33.33%;
+                padding: 0;
+                margin: 0;
+                background: #eee;
+                display: flex;
+                justify-content: space-around;
+                text-align: center;
+                color: #4d4d4d;
+                li {
+                    display: inline-block;
+                    width: 33.33%; // line-height: 2;
+                    padding: .8rem 1rem; // border-top: 1px dashed #bbb;
+                    border-bottom: 1px dashed #bbb;
+                    min-height: 2em;
+                    border-right: 1px dashed #bbb;
+                }
+                .bgWhite {
+                    background: #fff;
+                }
+                .txtRed {
+                    color: #ff0000;
+                }
+            }
+        }
+        .bottomTable {
+            th {
+                color: #ff0000;
+                font-weight: normal;
+                font-size: 1.4rem;
+            }
+            td {
+                border-right: 1px dashed #ccc;
+                border-bottom: 1px dashed #ccc;
+                padding: .6rem 1rem;
+            }
+        }
+    }
+    .setCostModal {
+        ion-label {
+            width: 30% !important;
+        }
+        ion-input {
+            width: 60%;
+            background: #eee;
+        }
+    }
+}

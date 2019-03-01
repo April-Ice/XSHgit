@@ -1,0 +1,73 @@
+<ion-header>
+    <ion-navbar color="white">
+        <ion-title>档期查询</ion-title>
+        <ion-buttons end>
+            <button ion-button class="blickBtn" (click)="gotoAddOrder()">新建订单</button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+
+<ion-content id="aboutContent">
+    <ion-grid>
+        <ion-row>
+            <ion-col col-4 class="leftBox">
+                <div class="searchBox">
+                    <h3>会议厅档期查询</h3>
+                    <ion-item no-lines>
+                        <ion-label>会议厅</ion-label>
+                        <ion-select [(ngModel)]="searchOptions.hall_id">
+                            <ion-option value="0" selected="true">全部</ion-option>
+                            <ion-option value="{{item.id}}" *ngFor="let item of hallList">{{item.name}}</ion-option>
+                        </ion-select>
+                    </ion-item>
+                    <ion-item no-lines>
+                        <ion-label>开始时间</ion-label>
+                        <ion-datetime displayFormat="YYYY MMM DD" pickerFormat="YYYY MMM DD" [(ngModel)]="searchOptions.start_time"></ion-datetime>
+                    </ion-item>
+                    <ion-item no-lines>
+                        <ion-label>结束时间</ion-label>
+                        <ion-datetime displayFormat="YYYY MMM DD" pickerFormat="YYYY MMM DD" [(ngModel)]="searchOptions.end_time"></ion-datetime>
+                    </ion-item>
+                    <div class="serchLine">
+                        <button ion-button color="danger" (click)="searchOrder()">立即查询</button>
+                    </div>
+                </div>
+            </ion-col>
+            <ion-col col-8 class="rightBox">
+                <ion-row class="fixTable">
+                    <ion-col>
+                        <table class="clientTable finaTable f-table">
+                            <tr class="tableTh">
+                                <td style="width:15%;">订单名称</td>
+                                <td style="width:15%">场地名称</td>
+                                <td style="width:20%">开始时间</td>
+                                <td style="width:20%;">结束时间</td>
+                                <td style="width:15%;">销售人员</td>
+                                <td style="width:15%;">订单状态</td>
+                            </tr>
+                        </table>
+
+                        <!-- <div class="tableHeight"> -->
+                        <div class="">
+                            <table class="clientTable finaTable">
+                                <tr class="trItem" *ngFor="let item of orderList;let i = index" (click)="gotoDetail(item.order_id)">
+                                    <td style="width:15%;">{{item.order_name}}</td>
+                                    <td style="width:15%">{{item.hall_name}}</td>
+                                    <td style="width:20%">{{item.start_time}}</td>
+                                    <td style="width:20%;">{{item.end_time}}</td>
+                                    <td style="width:15%;">{{item.saler_name}}</td>
+                                    <td style="width:15%;">{{item.order_status}}</td>
+                                </tr>
+                            </table>
+                            <div class="pagebar">
+                                <span *ngFor="let item of pageNumArr">
+                                    <button ion-button color="light" [class.active]="item == pagCurren" (click)="setPagination(item)">{{item}}</button>
+                                </span>
+                            </div>
+                        </div>
+                    </ion-col>
+                </ion-row>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>
